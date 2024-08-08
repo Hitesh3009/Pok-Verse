@@ -8,8 +8,9 @@ const Allpokemons = () => {
     const [pokeType, setpokeType] = useState(null);
     const [offset, setoffset] = useState(0);
     const [limit, setlimit] = useState(20);
-    const [totalRes,settotalRes]=useState(0);
-    const [userInp,setuserInp] = useState('');
+    const [totalRes, settotalRes] = useState(0);
+    const [userInp, setuserInp] = useState('');
+    const [specificPokeInfo, setspecificPokeInfo] = useState(null);
     const pokeNameColorWithIcon = {
         'bug': { 'color': '#94bc4a', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_6_bug.webp&w=32&q=75' },
         'dark': { 'color': '#736c75', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_16_dark.webp&w=32&q=75' },
@@ -31,73 +32,110 @@ const Allpokemons = () => {
         'water': { 'color': '#539ae2', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_10_water.webp&w=32&q=75' },
     };
 
-    const handleUserInp=(e)=>{
+    const handleUserInp = (e) => {
         setuserInp(e.target.value);
     }
-    
-    const fetchImgAndType=async(fetchedRes)=>{
-        let pokeImgObj = {};
-        let pokeTypeObj = {};
-        for (let i = 0; i < fetchedRes.length; i++) {
-            let name = fetchedRes[i].name;
-            let url = fetchedRes[i].url;
-            const pokeDetails = await fetch(url);
-            const individualPokeData = await pokeDetails.json();
-            pokeImgObj[name] = individualPokeData.sprites.other.home.front_default;
 
-            for (let j = 0; j < individualPokeData.types.length; j++) {
-                if (!(name in pokeTypeObj))
-                    pokeTypeObj[name] = [individualPokeData.types[j].type.name];
-                else
-                    pokeTypeObj[name].push(individualPokeData.types[j].type.name);
+    const fetchImgAndType = async (fetchedRes) => {
+        try {
+            let pokeImgObj = {};
+            let pokeTypeObj = {};
+            for (let i = 0; i < fetchedRes.length; i++) {
+                let name = fetchedRes[i].name;
+                let url = fetchedRes[i].url;
+                const pokeDetails = await fetch(url);
+                const individualPokeData = await pokeDetails.json();
+                pokeImgObj[name] = individualPokeData.sprites.other.home.front_default;
+
+                for (let j = 0; j < individualPokeData.types.length; j++) {
+                    if (!(name in pokeTypeObj))
+                        pokeTypeObj[name] = [individualPokeData.types[j].type.name];
+                    else
+                        pokeTypeObj[name].push(individualPokeData.types[j].type.name);
+                }
             }
+            setpokeImg(prevstate => ({ ...prevstate, ...pokeImgObj }));
+            setpokeType(prevstate => ({ ...prevstate, ...pokeTypeObj }));
+        } catch (err) {
+            return { error: 'Some error occured while fetching the pokemon iamges and types.' };
         }
-        setpokeImg(prevstate=>({...prevstate,...pokeImgObj}));
-        setpokeType(prevstate=>({...prevstate,...pokeTypeObj}));
+
     }
 
     const fetchPokemon = async () => {
-        const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=${limit}`);
-        const data = await parsed.json();
-        const fetchedRes = data.results;
+        try {
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=${limit}`);
+            const data = await parsed.json();
+            const fetchedRes = data.results;
 
-        await fetchImgAndType(fetchedRes);
+            await fetchImgAndType(fetchedRes);
 
-        // Batch updates of states
-        setpokemon(data.results);
-        settotalRes(data.count);
-        setlimit(fetchedRes.length);
-        setoffset(offset+limit);
+            // Batch updates of states
+            setpokemon(data.results);
+            settotalRes(data.count);
+            setlimit(fetchedRes.length);
+            setoffset(offset + limit);
+        } catch (err) {
+            return { error: 'Some error occured while fetching the pokemon data.' };
+        }
     }
 
-    const fetchMoreData=async()=>{
-        const newParsedData=await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=${limit}`);
-        const newData= await newParsedData.json();
-        const newFetchedRes=newData.results;
+    const fetchSpecificPoke = async () => {
+        if (!userInp.trim()) return;
+        try {
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
+            const data = await parsed.json();
+            let typesArr = [];
+            data.types.forEach(ele => {
+                typesArr.push(ele.type.name);
+            })
+            const pokeInfoObj = {
+                name: data.name,
+                img: data.sprites.other.home.front_default,
+                types: typesArr
+            }
+            setspecificPokeInfo(pokeInfoObj);
+        } catch (err) {
+            return { error: `Some error occured while fetching data for ${userInp}.` };
+        }
+    }
 
-        await fetchImgAndType(newFetchedRes);
-        
-        // Batch updates of states
-        setlimit(newFetchedRes.length);
-        setoffset(offset+limit);
-        setpokemon(prevstate=>([...prevstate,...newFetchedRes]));
+    const fetchMoreData = async () => {
+        try {
+            const newParsedData = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=${limit}`);
+            const newData = await newParsedData.json();
+            const newFetchedRes = newData.results;
+
+            await fetchImgAndType(newFetchedRes);
+
+            // Batch updates of states
+            setlimit(newFetchedRes.length);
+            setoffset(offset + limit);
+            setpokemon(prevstate => ([...prevstate, ...newFetchedRes]));
+        } catch (err) {
+            return { error: 'Some error occured while fetching the additional pokemon data.' };
+        }
     }
 
     useEffect(() => {
         fetchPokemon();
     }, []);
+
+    useEffect(() => {
+        fetchSpecificPoke();
+    }, [userInp]);
     return (
         <>
-        {console.log(userInp)}
             <div className="searchPokemon flex flex-col space-y-4 mb-3">
                 <label htmlFor="pokemonName" className='text-3xl text-center font-bold font-mono'>Search Pokemon</label>
-                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300' value={userInp} onChange={handleUserInp}/>
+                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300' value={userInp} onChange={handleUserInp} />
             </div>
+
             <div className="flex justify-center space-x-6 flex-wrap font-mono">
                 <InfiniteScroll
                     dataLength={pokemon.length}
                     next={fetchMoreData}
-                    hasMore={pokemon.length!==totalRes}
+                    hasMore={pokemon.length !== totalRes}
                 />
                 {
                     pokemon && pokemon.map((pokeVal, index) => {
@@ -116,10 +154,10 @@ const Allpokemons = () => {
                                     {
                                         pokeType[pokeVal.name] && pokeType[pokeVal.name].map((type, idx) => {
                                             return (<>
-                                            <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[type].color }}>
-                                                <img src={pokeNameColorWithIcon[type].icon} alt="Pokemon Type Icon" className='border-2 border-gray-400 rounded-full w-7 h-7'/>
-                                                <span className={`mx-1 text-white`} key={idx} >{type}</span>
-                                            </div>
+                                                <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[type].color }}>
+                                                    <img src={pokeNameColorWithIcon[type].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full w-7 h-7' />
+                                                    <span className={`mx-1.5 text-white`} key={idx} >{type}</span>
+                                                </div>
                                             </>)
                                         })
                                     }
