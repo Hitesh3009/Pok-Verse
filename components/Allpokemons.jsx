@@ -9,26 +9,31 @@ const Allpokemons = () => {
     const [offset, setoffset] = useState(0);
     const [limit, setlimit] = useState(20);
     const [totalRes,settotalRes]=useState(0);
+    const [userInp,setuserInp] = useState('');
     const pokeNameColorWithIcon = {
-        'bug': { 'color': '#94bc4a', 'icon': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm7Bb9gBY8yTat5Qk-S2XCUpJz868ih9jVJg&s' },
-        'dark': { 'color': '#736c75', 'icon': '' },
-        'dragon': { 'color': '#6a7baf', 'icon': '' },
-        'electric': { 'color': '#e5c531', 'icon': '' },
-        'fairy': { 'color': '#e397d1', 'icon': '' },
-        'fighting': { 'color': '#cb5f48', 'icon': '' },
-        'fire': { 'color': '#ea7a3c', 'icon': 'https://image.pngaaa.com/886/6175886-middle.png' },
-        'flying': { 'color': '#7da6de', 'icon': '' },
-        'ghost': { 'color': '#846ab6', 'icon': '' },
-        'grass': { 'color': '#71c558', 'icon': '' },
-        'ground': { 'color': '#cc9f4f', 'icon': '' },
-        'ice': { 'color': '#70cbd4', 'icon': '' },
-        'normal': { 'color': '#aab09f', 'icon': '' },
-        'poison': { 'color': '#b468b7', 'icon': '' },
-        'psychic': { 'color': '#e5709b', 'icon': '' },
-        'rock': { 'color': '#b2a061', 'icon': '' },
-        'steel': { 'color': '#89a1b0', 'icon': '' },
-        'water': { 'color': '#539ae2', 'icon': '' },
+        'bug': { 'color': '#94bc4a', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_6_bug.webp&w=32&q=75' },
+        'dark': { 'color': '#736c75', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_16_dark.webp&w=32&q=75' },
+        'dragon': { 'color': '#6a7baf', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_15_dragon.webp&w=32&q=75' },
+        'electric': { 'color': '#e5c531', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_12_electric.webp&w=32&q=75' },
+        'fairy': { 'color': '#e397d1', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_17_fairy.webp&w=32&q=75' },
+        'fighting': { 'color': '#cb5f48', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_1_fighting.webp&w=32&q=75' },
+        'fire': { 'color': '#ea7a3c', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_9_fire.webp&w=64&q=75' },
+        'flying': { 'color': '#7da6de', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_2_flying.webp&w=32&q=75' },
+        'ghost': { 'color': '#846ab6', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_7_ghost.webp&w=32&q=75' },
+        'grass': { 'color': '#71c558', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_11_grass.webp&w=32&q=75' },
+        'ground': { 'color': '#cc9f4f', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_4_ground.webp&w=32&q=75' },
+        'ice': { 'color': '#70cbd4', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_14_ice.webp&w=32&q=75' },
+        'normal': { 'color': '#aab09f', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_0_normal.webp&w=32&q=75' },
+        'poison': { 'color': '#b468b7', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_3_poison.webp&w=32&q=75' },
+        'psychic': { 'color': '#e5709b', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_13_psychic.webp&w=32&q=75' },
+        'rock': { 'color': '#b2a061', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_5_rock.webp&w=32&q=75' },
+        'steel': { 'color': '#89a1b0', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_8_steel.webp&w=32&q=75' },
+        'water': { 'color': '#539ae2', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_10_water.webp&w=32&q=75' },
     };
+
+    const handleUserInp=(e)=>{
+        setuserInp(e.target.value);
+    }
     
     const fetchImgAndType=async(fetchedRes)=>{
         let pokeImgObj = {};
@@ -83,7 +88,12 @@ const Allpokemons = () => {
     }, []);
     return (
         <>
-            <div className="flex justify-evenly flex-wrap font-mono">
+        {console.log(userInp)}
+            <div className="searchPokemon flex flex-col space-y-4 mb-3">
+                <label htmlFor="pokemonName" className='text-3xl text-center font-bold font-mono'>Search Pokemon</label>
+                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300' value={userInp} onChange={handleUserInp}/>
+            </div>
+            <div className="flex justify-center space-x-6 flex-wrap font-mono">
                 <InfiniteScroll
                     dataLength={pokemon.length}
                     next={fetchMoreData}
@@ -93,7 +103,7 @@ const Allpokemons = () => {
                     pokemon && pokemon.map((pokeVal, index) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                            <div className="card border-2 border-black w-64 h-96 m-3 px-5 pt-2 overflow-hidden " key={index}>
+                            <div className="card border-2 border-black w-72 h-96 m-3 px-5 pt-2 overflow-hidden space-y-4" key={index}>
                                 <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 w-full hover:rounded-b-full hover:-mt-[1.3rem] hover:cursor-pointer bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                     <div className="pokeImg">
                                         <img src={pokeImg[pokeVal.name]} alt="Pokemon Image" className=' w-32 h-32' />
@@ -106,7 +116,10 @@ const Allpokemons = () => {
                                     {
                                         pokeType[pokeVal.name] && pokeType[pokeVal.name].map((type, idx) => {
                                             return (<>
-                                                <span className={`my-1 py-2 px-3 w-32 text-center mx-2 rounded-lg tracking-wide text-base text-white font-bold`} key={idx} style={{ backgroundColor: pokeNameColorWithIcon[type].color }}>{type}</span>
+                                            <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[type].color }}>
+                                                <img src={pokeNameColorWithIcon[type].icon} alt="Pokemon Type Icon" className='border-2 border-gray-400 rounded-full w-7 h-7'/>
+                                                <span className={`mx-1 text-white`} key={idx} >{type}</span>
+                                            </div>
                                             </>)
                                         })
                                     }
