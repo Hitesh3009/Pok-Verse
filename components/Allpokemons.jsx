@@ -1,13 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-
+import CardSkeleton from './CardSkeleton';
 const Allpokemons = () => {
     const [pokemon, setpokemon] = useState([]);
     const [next, setnext] = useState('');
     const [prev, setprev] = useState('');
     const [userInp, setuserInp] = useState('');
-    // const [specificPokeInfo, setspecificPokeInfo] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error,seterror]=useState('');
     const pokeNameColorWithIcon = {
         'bug': { 'color': '#94bc4a', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_6_bug.webp&w=32&q=75' },
         'dark': { 'color': '#736c75', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_16_dark.webp&w=32&q=75' },
@@ -46,16 +46,15 @@ const Allpokemons = () => {
             const detailedResponse = await Promise.all(detailPokemonData);
 
             // Batch updates of states
-
             setpokemon(detailedResponse);
             setLoading(false);
             setnext(data.next);
             setprev(data.previous);
         } catch (err) {
-            return { error: 'Some error occured while fetching the pokemon data.' };
+            setLoading(false);
+            seterror('Some error occured while fetching the pokemon data.');
         }
     }
-
 
     const handleNextClick = async () => {
         try {
@@ -74,9 +73,11 @@ const Allpokemons = () => {
             setnext(newData.next);
             setprev(newData.previous);
         } catch (err) {
-            return { error: 'Some error occured while fetching the new pokemon data.' };
+            setLoading(false);
+            seterror('Some error occured while fetching the next data.');
         }
     }
+
     const handlePrevClick = async () => {
         try {
             const newParsedData = await fetch(prev);
@@ -94,7 +95,8 @@ const Allpokemons = () => {
             setnext(newData.next);
             setprev(newData.previous);
         } catch (err) {
-            return { error: 'Some error occured while fetching the new pokemon data.' };
+            setLoading(false);
+            seterror('Some error occured while fetching the previous data.');
         }
     }
 
@@ -107,21 +109,35 @@ const Allpokemons = () => {
     }, []);
 
 
+    if (loading) {
+        return (<>
+        <CardSkeleton/>
+        </>)
+    }
+
+    if(error){
+        return(
+            <div>
+                <p className='text-3xl font-bold'>{error}</p>
+            </div>
+        )
+    }
+
     return (
         <>
-            {/* {console.log(pokemon)} */}
-            <div className="searchPokemon flex flex-col space-y-4 mb-3">
+            {console.log(pokemon)}
+            <div className="searchPokemon flex flex-col space-y-4 mb-7">
                 <label htmlFor="pokemonName" className='text-3xl text-center font-bold font-mono'>Search Pokemon</label>
-                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300' value={userInp} onChange={handleUserInp} />
+                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300 h-9' value={userInp} onChange={handleUserInp} />
             </div>
 
             <div className="flex justify-center  flex-wrap font-mono">
                 {
-                    pokemon && pokemon.map((pokeVal) => {
+                    pokemon.map((pokeVal) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                            <div className="card border-2 border-black w-72 h-auto m-3 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer">
-                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-40 items-center w-full hover:rounded-b-full hover:-mt-[1.3rem] bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
+                            <div className="card border-2 border-black w-72 h-auto m-5 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105">
+                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                     <div className="pokeImg">
                                         <img src={pokeVal.sprites.other.dream_world.front_default} alt="Pokemon Image" className=' w-32 h-32' />
                                     </div>
