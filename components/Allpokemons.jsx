@@ -1,13 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Allpokemons = () => {
     const [pokemon, setpokemon] = useState([]);
     const [next, setnext] = useState('');
-    const [totalRes, settotalRes] = useState(0);
+    const [prev, setprev] = useState('');
     const [userInp, setuserInp] = useState('');
-    const [specificPokeInfo, setspecificPokeInfo] = useState(null);
+    // const [specificPokeInfo, setspecificPokeInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
     const pokeNameColorWithIcon = {
         'bug': { 'color': '#94bc4a', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_6_bug.webp&w=32&q=75' },
         'dark': { 'color': '#736c75', 'icon': 'https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_16_dark.webp&w=32&q=75' },
@@ -33,108 +33,103 @@ const Allpokemons = () => {
         setuserInp(e.target.value);
     }
 
-
     const fetchPokemon = async () => {
         try {
-            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon`);
             const data = await parsed.json();
 
-            const detailPokemonData = data.results.map(async(currentPoke)=>{
-                const res= await fetch(currentPoke.url);
-                const url_data= await res.json();
+            const detailPokemonData = data.results.map(async (currentPoke) => {
+                const res = await fetch(currentPoke.url);
+                const url_data = await res.json();
                 return url_data
             });
-            const detailedResponse=await Promise.all(detailPokemonData);         
+            const detailedResponse = await Promise.all(detailPokemonData);
 
             // Batch updates of states
-                  
-            setpokemon(detailedResponse);          
-            settotalRes(data.count);
-            setnext(data.next)
+
+            setpokemon(detailedResponse);
+            setLoading(false);
+            setnext(data.next);
+            setprev(data.previous);
         } catch (err) {
             return { error: 'Some error occured while fetching the pokemon data.' };
         }
     }
 
-    // const fetchSpecificPoke = async () => {
-    //     try {
-    //         const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
-    //         const data = await parsed.json();
-    //         console.log(data);
-    //         let typesArr = [];
-    //         data.types.forEach(ele => {
-    //             typesArr.push(ele.type.name);
-    //         })
-    //         const pokeInfoObj = {
-    //             name: data.name,
-    //             img: data.sprites.other.home.front_default,
-    //             types: typesArr
-    //         }
-    //         setspecificPokeInfo(pokeInfoObj);
-    //         // console.log(specificPokeInfo);
-    //     } catch (err) {
-    //         return { error: `Some error occured while fetching data for ${userInp}.` };
-    //     }
-    // }
 
-    const fetchMoreData = async () => {
+    const handleNextClick = async () => {
         try {
             const newParsedData = await fetch(next);
             const newData = await newParsedData.json();
-            const newFetchedRes = newData.results.map(async(newPokeData)=>{
-                const res= await fetch(newPokeData.url);
-                const url_data=await res.json();
+            const newFetchedRes = newData.results.map(async (newPokeData) => {
+                const res = await fetch(newPokeData.url);
+                const url_data = await res.json();
                 return url_data;
             });
-            const newDetailedData=await Promise.all(newFetchedRes);
-            
+            const newDetailedData = await Promise.all(newFetchedRes);
+
             // Batch updates of states
-            setpokemon(prevstate => ([...prevstate, ...newDetailedData]));
+            setpokemon(newDetailedData);
+            setLoading(false);
             setnext(newData.next);
+            setprev(newData.previous);
         } catch (err) {
-            return { error: 'Some error occured while fetching the additional pokemon data.' };
+            return { error: 'Some error occured while fetching the new pokemon data.' };
+        }
+    }
+    const handlePrevClick = async () => {
+        try {
+            const newParsedData = await fetch(prev);
+            const newData = await newParsedData.json();
+            const newFetchedRes = newData.results.map(async (newPokeData) => {
+                const res = await fetch(newPokeData.url);
+                const url_data = await res.json();
+                return url_data;
+            });
+            const newDetailedData = await Promise.all(newFetchedRes);
+
+            // Batch updates of states
+            setpokemon(newDetailedData);
+            setLoading(false);
+            setnext(newData.next);
+            setprev(newData.previous);
+        } catch (err) {
+            return { error: 'Some error occured while fetching the new pokemon data.' };
         }
     }
 
-    const captilizeFirstLetter=(word)=>{
-        return word.charAt(0).toUpperCase()+word.slice(1,word.length+1).toLowerCase();
+    const captilizeFirstLetter = (word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
     }
 
     useEffect(() => {
         fetchPokemon();
-    }, [userInp]);
+    }, []);
 
-    // useEffect(() => {
-    //     specificPokeInfo;
-    //     fetchSpecificPoke()
-    // }, [userInp]);
+
     return (
         <>
+            {/* {console.log(pokemon)} */}
             <div className="searchPokemon flex flex-col space-y-4 mb-3">
                 <label htmlFor="pokemonName" className='text-3xl text-center font-bold font-mono'>Search Pokemon</label>
                 <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300' value={userInp} onChange={handleUserInp} />
             </div>
 
-            <div className="flex justify-center space-x-6 flex-wrap font-mono">
-                {pokemon && <InfiniteScroll
-                    dataLength={pokemon.length}
-                    next={fetchMoreData}
-                    hasMore={pokemon.length !== totalRes}
-                />}
+            <div className="flex justify-center  flex-wrap font-mono">
                 {
-                    pokemon && pokemon.map((pokeVal, index) => {
+                    pokemon && pokemon.map((pokeVal) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                            <div className="card border-2 border-black w-72 h-96 m-3 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer" key={index}>
-                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 w-full hover:rounded-b-full hover:-mt-[1.3rem] bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
+                            <div className="card border-2 border-black w-72 h-auto m-3 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer">
+                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-40 items-center w-full hover:rounded-b-full hover:-mt-[1.3rem] bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                     <div className="pokeImg">
-                                        <img src={pokeVal.sprites.other.home.front_default} alt="Pokemon Image" className=' w-32 h-32' />
+                                        <img src={pokeVal.sprites.other.dream_world.front_default} alt="Pokemon Image" className=' w-32 h-32' />
                                     </div>
                                 </div>
                                 <div className="pokeName flex justify-center mt-3">
                                     <span className='text-2xl text-center font-bold'>{captilizeFirstLetter(pokeVal.name)}</span>
                                 </div>
-                                <div className="pokeType flex justify-evenly">
+                                <div className="pokeType flex justify-evenly" key={pokeVal.id}>
                                     {
                                         pokeVal.types.map((val) => {
                                             return (<>
@@ -145,12 +140,31 @@ const Allpokemons = () => {
                                             </>)
                                         })
                                     }
-
+                                </div>
+                                <div className="pokeStats flex justify-between flex-wrap">
+                                    <span>Height: {pokeVal.height}</span>
+                                    <span>Weight: {pokeVal.weight}</span>
+                                    <span>Speed: {pokeVal.stats[5].base_stat}</span>
+                                    <span>Experience: {pokeVal.base_experience}</span>
+                                    <span>Attack: {pokeVal.stats[1].base_stat}</span>
+                                    <span>Defense: {pokeVal.stats[2].base_stat}</span>
+                                </div>
+                                <div>
+                                    <span>Abilities: </span>
+                                    <ul className='flex flex-col mb-2 pl-2'>
+                                        {
+                                            pokeVal.abilities.map(currAbility => <li className='list-disc'>{captilizeFirstLetter(currAbility.ability.name)}</li>)
+                                        }
+                                    </ul>
                                 </div>
                             </div>
                         </>)
                     })
                 }
+            </div>
+            <div className='contentNavigation w-full flex justify-between'>
+                <button className='bg-black text-white px-3 py-2 rounded-md text-center w-20' onClick={handlePrevClick} disabled={prev === null}>&larr;Prev</button>
+                <button className='bg-black text-white px-3 py-2 rounded-md text-center w-20' onClick={handleNextClick} disabled={next === null}>Next&rarr;</button>
             </div>
         </>
     )
