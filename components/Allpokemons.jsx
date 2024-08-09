@@ -35,7 +35,7 @@ const Allpokemons = () => {
 
     const fetchPokemon = async () => {
         try {
-            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=40`);
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=24`);
             const data = await parsed.json();
 
             const detailPokemonData = data.results.map(async (currentPoke) => {
@@ -131,7 +131,7 @@ const Allpokemons = () => {
             {console.log(pokemon)}
             <div className="searchPokemon flex flex-col space-y-4 mb-7">
                 <label htmlFor="pokemonName" className='text-3xl text-center font-bold font-mono'>Search Pokemon</label>
-                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-[25vw] pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300 h-9' value={userInp} onChange={handleUserInp} />
+                <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-72 sm:w-80 md:w-96 pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300 h-9' value={userInp} onChange={handleUserInp} />
             </div>
 
             <div className="flex justify-center  flex-wrap font-mono">
@@ -180,7 +180,7 @@ const Allpokemons = () => {
                         </>)
                     }):(
                         <div>
-                            <p className='text-3xl'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{captilizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next page.</p>
+                            <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{captilizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next page.</p>
                         </div>
                     )
                 }
