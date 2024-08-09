@@ -6,8 +6,7 @@ const Allpokemons = () => {
     const [pokemon, setpokemon] = useState([]);
     const [pokeImg, setpokeImg] = useState(null);
     const [pokeType, setpokeType] = useState(null);
-    const [offset, setoffset] = useState(0);
-    const [limit, setlimit] = useState(20);
+    const [next, setnext] = useState('');
     const [totalRes, settotalRes] = useState(0);
     const [userInp, setuserInp] = useState('');
     const [specificPokeInfo, setspecificPokeInfo] = useState(null);
@@ -63,18 +62,19 @@ const Allpokemons = () => {
     }
 
     const fetchPokemon = async () => {
+        // if(!userInp) return userInp.trim();
         try {
-            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=${limit}`);
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
             const data = await parsed.json();
             const fetchedRes = data.results;
+            console.log(fetchedRes);
 
             await fetchImgAndType(fetchedRes);
 
             // Batch updates of states
             setpokemon(data.results);
             settotalRes(data.count);
-            setlimit(fetchedRes.length);
-            setoffset(offset + limit);
+            setnext(data.next)
         } catch (err) {
             return { error: 'Some error occured while fetching the pokemon data.' };
         }
@@ -85,6 +85,7 @@ const Allpokemons = () => {
         try {
             const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
             const data = await parsed.json();
+            console.log(data);
             let typesArr = [];
             data.types.forEach(ele => {
                 typesArr.push(ele.type.name);
@@ -95,6 +96,7 @@ const Allpokemons = () => {
                 types: typesArr
             }
             setspecificPokeInfo(pokeInfoObj);
+            // console.log(specificPokeInfo);
         } catch (err) {
             return { error: `Some error occured while fetching data for ${userInp}.` };
         }
@@ -102,28 +104,31 @@ const Allpokemons = () => {
 
     const fetchMoreData = async () => {
         try {
-            const newParsedData = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=${limit}`);
+            const newParsedData = await fetch(next);
             const newData = await newParsedData.json();
             const newFetchedRes = newData.results;
 
             await fetchImgAndType(newFetchedRes);
 
             // Batch updates of states
-            setlimit(newFetchedRes.length);
-            setoffset(offset + limit);
             setpokemon(prevstate => ([...prevstate, ...newFetchedRes]));
+            setnext(newData.next);
         } catch (err) {
             return { error: 'Some error occured while fetching the additional pokemon data.' };
         }
     }
 
+    const captilizeFirstLetter=(word)=>{
+        return word.charAt(0).toUpperCase()+word.slice(1,word.length+1).toLowerCase();
+    }
     useEffect(() => {
         fetchPokemon();
-    }, []);
-
-    useEffect(() => {
-        fetchSpecificPoke();
     }, [userInp]);
+
+    // useEffect(() => {
+    //     specificPokeInfo;
+    //     fetchSpecificPoke()
+    // }, [userInp]);
     return (
         <>
             <div className="searchPokemon flex flex-col space-y-4 mb-3">
@@ -148,7 +153,7 @@ const Allpokemons = () => {
                                     </div>
                                 </div>
                                 <div className="pokeName flex justify-center mt-3">
-                                    <span className='text-2xl text-center font-bold'>{pokeVal.name.charAt(0).toUpperCase() + pokeVal.name.substr(1, pokeVal.name.length + 1)}</span>
+                                    <span className='text-2xl text-center font-bold'>{captilizeFirstLetter(pokeVal.name)}</span>
                                 </div>
                                 <div className="pokeType flex justify-evenly">
                                     {
