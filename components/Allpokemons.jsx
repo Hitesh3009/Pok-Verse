@@ -35,7 +35,7 @@ const Allpokemons = () => {
 
     const fetchPokemon = async () => {
         try {
-            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon`);
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=40`);
             const data = await parsed.json();
 
             const detailPokemonData = data.results.map(async (currentPoke) => {
@@ -108,7 +108,10 @@ const Allpokemons = () => {
         fetchPokemon();
     }, []);
 
-
+    const filterPokemon = pokemon.filter((currPokemon) => {
+        return currPokemon.name.toLowerCase().includes(userInp.toLowerCase());
+    });
+    
     if (loading) {
         return (<>
         <CardSkeleton/>
@@ -133,7 +136,7 @@ const Allpokemons = () => {
 
             <div className="flex justify-center  flex-wrap font-mono">
                 {
-                    pokemon.map((pokeVal) => {
+                    filterPokemon.length>0?filterPokemon.map((pokeVal) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
                             <div className="card border-2 border-black w-72 h-auto m-5 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105">
@@ -175,7 +178,11 @@ const Allpokemons = () => {
                                 </div>
                             </div>
                         </>)
-                    })
+                    }):(
+                        <div>
+                            <p className='text-3xl'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{captilizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next page.</p>
+                        </div>
+                    )
                 }
             </div>
             <div className='contentNavigation w-full flex justify-between'>
