@@ -4,8 +4,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Allpokemons = () => {
     const [pokemon, setpokemon] = useState([]);
-    const [pokeImg, setpokeImg] = useState(null);
-    const [pokeType, setpokeType] = useState(null);
     const [next, setnext] = useState('');
     const [totalRes, settotalRes] = useState(0);
     const [userInp, setuserInp] = useState('');
@@ -35,44 +33,22 @@ const Allpokemons = () => {
         setuserInp(e.target.value);
     }
 
-    const fetchImgAndType = async (fetchedRes) => {
-        try {
-            let pokeImgObj = {};
-            let pokeTypeObj = {};
-            for (let i = 0; i < fetchedRes.length; i++) {
-                let name = fetchedRes[i].name;
-                let url = fetchedRes[i].url;
-                const pokeDetails = await fetch(url);
-                const individualPokeData = await pokeDetails.json();
-                pokeImgObj[name] = individualPokeData.sprites.other.home.front_default;
-
-                for (let j = 0; j < individualPokeData.types.length; j++) {
-                    if (!(name in pokeTypeObj))
-                        pokeTypeObj[name] = [individualPokeData.types[j].type.name];
-                    else
-                        pokeTypeObj[name].push(individualPokeData.types[j].type.name);
-                }
-            }
-            setpokeImg(prevstate => ({ ...prevstate, ...pokeImgObj }));
-            setpokeType(prevstate => ({ ...prevstate, ...pokeTypeObj }));
-        } catch (err) {
-            return { error: 'Some error occured while fetching the pokemon iamges and types.' };
-        }
-
-    }
 
     const fetchPokemon = async () => {
-        // if(!userInp) return userInp.trim();
         try {
             const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
             const data = await parsed.json();
-            const fetchedRes = data.results;
-            console.log(fetchedRes);
 
-            await fetchImgAndType(fetchedRes);
+            const detailPokemonData = data.results.map(async(currentPoke)=>{
+                const res= await fetch(currentPoke.url);
+                const url_data= await res.json();
+                return url_data
+            });
+            const detailedResponse=await Promise.all(detailPokemonData);         
 
             // Batch updates of states
-            setpokemon(data.results);
+                  
+            setpokemon(detailedResponse);          
             settotalRes(data.count);
             setnext(data.next)
         } catch (err) {
@@ -80,38 +56,40 @@ const Allpokemons = () => {
         }
     }
 
-    const fetchSpecificPoke = async () => {
-        if (!userInp.trim()) return;
-        try {
-            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
-            const data = await parsed.json();
-            console.log(data);
-            let typesArr = [];
-            data.types.forEach(ele => {
-                typesArr.push(ele.type.name);
-            })
-            const pokeInfoObj = {
-                name: data.name,
-                img: data.sprites.other.home.front_default,
-                types: typesArr
-            }
-            setspecificPokeInfo(pokeInfoObj);
-            // console.log(specificPokeInfo);
-        } catch (err) {
-            return { error: `Some error occured while fetching data for ${userInp}.` };
-        }
-    }
+    // const fetchSpecificPoke = async () => {
+    //     try {
+    //         const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon/${userInp}`);
+    //         const data = await parsed.json();
+    //         console.log(data);
+    //         let typesArr = [];
+    //         data.types.forEach(ele => {
+    //             typesArr.push(ele.type.name);
+    //         })
+    //         const pokeInfoObj = {
+    //             name: data.name,
+    //             img: data.sprites.other.home.front_default,
+    //             types: typesArr
+    //         }
+    //         setspecificPokeInfo(pokeInfoObj);
+    //         // console.log(specificPokeInfo);
+    //     } catch (err) {
+    //         return { error: `Some error occured while fetching data for ${userInp}.` };
+    //     }
+    // }
 
     const fetchMoreData = async () => {
         try {
             const newParsedData = await fetch(next);
             const newData = await newParsedData.json();
-            const newFetchedRes = newData.results;
-
-            await fetchImgAndType(newFetchedRes);
-
+            const newFetchedRes = newData.results.map(async(newPokeData)=>{
+                const res= await fetch(newPokeData.url);
+                const url_data=await res.json();
+                return url_data;
+            });
+            const newDetailedData=await Promise.all(newFetchedRes);
+            
             // Batch updates of states
-            setpokemon(prevstate => ([...prevstate, ...newFetchedRes]));
+            setpokemon(prevstate => ([...prevstate, ...newDetailedData]));
             setnext(newData.next);
         } catch (err) {
             return { error: 'Some error occured while fetching the additional pokemon data.' };
@@ -121,6 +99,7 @@ const Allpokemons = () => {
     const captilizeFirstLetter=(word)=>{
         return word.charAt(0).toUpperCase()+word.slice(1,word.length+1).toLowerCase();
     }
+
     useEffect(() => {
         fetchPokemon();
     }, [userInp]);
@@ -137,19 +116,19 @@ const Allpokemons = () => {
             </div>
 
             <div className="flex justify-center space-x-6 flex-wrap font-mono">
-                <InfiniteScroll
+                {pokemon && <InfiniteScroll
                     dataLength={pokemon.length}
                     next={fetchMoreData}
                     hasMore={pokemon.length !== totalRes}
-                />
+                />}
                 {
                     pokemon && pokemon.map((pokeVal, index) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                            <div className="card border-2 border-black w-72 h-96 m-3 px-5 pt-2 overflow-hidden space-y-4" key={index}>
-                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 w-full hover:rounded-b-full hover:-mt-[1.3rem] hover:cursor-pointer bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
+                            <div className="card border-2 border-black w-72 h-96 m-3 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer" key={index}>
+                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 w-full hover:rounded-b-full hover:-mt-[1.3rem] bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                     <div className="pokeImg">
-                                        <img src={pokeImg[pokeVal.name]} alt="Pokemon Image" className=' w-32 h-32' />
+                                        <img src={pokeVal.sprites.other.home.front_default} alt="Pokemon Image" className=' w-32 h-32' />
                                     </div>
                                 </div>
                                 <div className="pokeName flex justify-center mt-3">
@@ -157,11 +136,11 @@ const Allpokemons = () => {
                                 </div>
                                 <div className="pokeType flex justify-evenly">
                                     {
-                                        pokeType[pokeVal.name] && pokeType[pokeVal.name].map((type, idx) => {
+                                        pokeVal.types.map((val) => {
                                             return (<>
-                                                <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[type].color }}>
-                                                    <img src={pokeNameColorWithIcon[type].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full w-7 h-7' />
-                                                    <span className={`mx-1.5 text-white`} key={idx} >{type}</span>
+                                                <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
+                                                    <img src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full w-7 h-7' />
+                                                    <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
                                                 </div>
                                             </>)
                                         })
