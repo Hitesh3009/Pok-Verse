@@ -144,7 +144,7 @@ const Allpokemons = () => {
                     filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto m-5 px-5 pt-2 overflow-hidden space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105">
+                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-[67vh] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide">
                                 <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                     <div className="pokeImg">
                                         <img src={pokeVal.sprites.other.dream_world.front_default} alt="Pokemon Image" className=' w-32 h-32' />
@@ -175,7 +175,7 @@ const Allpokemons = () => {
                                 </div>
                                 <div>
                                     <span>Abilities: </span>
-                                    <ul className='flex flex-col mb-2 pl-2'>
+                                    <ul className='flex flex-col mb-2 pl-2 flex-wrap-reverse'>
                                         {
                                             pokeVal.abilities.map(currAbility => <li className='list-disc'>{captilizeFirstLetter(currAbility.ability.name)}</li>)
                                         }
