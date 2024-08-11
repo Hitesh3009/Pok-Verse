@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../globals.css'
 const captilizeFirstLetter = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
 }
@@ -35,11 +36,12 @@ const Pokemon = async ({ params }) => {
     const pokeData = await getPokeData(pokemon);
     return (
         <>
+        <div className='flex flex-col items-center md:items-start'>
             {
-                !pokeData.error ? (<div className="card border-2 border-black w-72 h-auto m-5 px-5 pt-2 overflow-hidden space-y-4 font-mono">
-                    <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
+                !pokeData.error ? (<div className="card border-2 border-black w-[17.5rem] md:w-72 h-auto m-5 md:mt-10 md:ml-14 px-5 pt-2 overflow-hidden space-y-4 font-mono md:animate-slideToLeft animate-slideToBottom">
+                    <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                         <div className="pokeImg">
-                            <img src={pokeData.sprites.other.dream_world.front_default} alt="Pokemon Image" className=' w-32 h-32' />
+                            <img src={pokeData.sprites.other.dream_world.front_default} alt="Pokemon Image" className=' w-28 h-28 md:w-32 md:h-32' />
                         </div>
                     </div>
                     <div className="pokeName flex justify-center mt-3">
@@ -80,6 +82,7 @@ const Pokemon = async ({ params }) => {
                     </div>
                 </>
             }
+        </div>
 
         </>
     )

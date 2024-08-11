@@ -36,7 +36,7 @@ const Allpokemons = () => {
 
     const fetchPokemon = async () => {
         try {
-            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=24`);
+            const parsed = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=20`);
             const data = await parsed.json();
 
             const detailPokemonData = data.results.map(async (currentPoke) => {
@@ -139,49 +139,51 @@ const Allpokemons = () => {
                 <input type="text" name="pokemonName" id="pokemonName" aria-placeholder='Search Pokemon' className='outline-none border-2 border-b-black w-72 sm:w-80 md:w-96 pl-3 focus:transition focus:border-[3px] focus:border-b-red-400 focus:shadow-lg focus:shadow-yellow-300 rounded-md delay-300 h-9' value={userInp} onChange={handleUserInp} />
             </div>
 
-            <div className="flex justify-center  flex-wrap font-mono">
+            <div className="flex justify-center flex-wrap font-mono">
                 {
                     filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
                         return (<>
                             {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-[67vh] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide">
-                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
-                                    <div className="pokeImg">
-                                        <img src={pokeVal.sprites.other.dream_world.front_default} alt="Pokemon Image" className=' w-32 h-32' />
+                            <div className=''>
+                                <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto md:h-[67vh] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
+                                    <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
+                                        <div className="pokeImg">
+                                            <img src={pokeVal.sprites.other.dream_world.front_default} alt="Pokemon Image" className='w-28 h-28 md:w-32 md:h-32' />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="pokeName flex justify-center mt-3">
-                                    <span className='text-2xl text-center font-bold'>{captilizeFirstLetter(pokeVal.name)}</span>
-                                </div>
-                                <div className="pokeType flex justify-evenly" key={pokeVal.id}>
-                                    {
-                                        pokeVal.types.map((val) => {
-                                            return (<>
-                                                <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
-                                                    <img src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full w-7 h-7' />
-                                                    <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
-                                                </div>
-                                            </>)
-                                        })
-                                    }
-                                </div>
-                                <div className="pokeStats flex justify-between flex-wrap">
-                                    <span>Height: {pokeVal.height}</span>
-                                    <span>Weight: {pokeVal.weight}</span>
-                                    <span>Speed: {pokeVal.stats[5].base_stat}</span>
-                                    <span>Experience: {pokeVal.base_experience}</span>
-                                    <span>Attack: {pokeVal.stats[1].base_stat}</span>
-                                    <span>Defense: {pokeVal.stats[2].base_stat}</span>
-                                </div>
-                                <div>
-                                    <span>Abilities: </span>
-                                    <ul className='flex flex-col mb-2 pl-2 flex-wrap-reverse'>
+                                    <div className="pokeName flex justify-center mt-3">
+                                        <span className='text-2xl text-center font-bold'>{captilizeFirstLetter(pokeVal.name)}</span>
+                                    </div>
+                                    <div className="pokeType flex justify-evenly" key={pokeVal.id}>
                                         {
-                                            pokeVal.abilities.map(currAbility => <li className='list-disc'>{captilizeFirstLetter(currAbility.ability.name)}</li>)
+                                            pokeVal.types.map((val) => {
+                                                return (<>
+                                                    <div className="flex justify-center items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
+                                                        <img src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full w-7 h-7' />
+                                                        <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
+                                                    </div>
+                                                </>)
+                                            })
                                         }
-                                    </ul>
-                                </div>
-                            </div></Link>
+                                    </div>
+                                    <div className="pokeStats flex justify-between flex-wrap">
+                                        <span>Height: {pokeVal.height}</span>
+                                        <span>Weight: {pokeVal.weight}</span>
+                                        <span>Speed: {pokeVal.stats[5].base_stat}</span>
+                                        <span>Experience: {pokeVal.base_experience}</span>
+                                        <span>Attack: {pokeVal.stats[1].base_stat}</span>
+                                        <span>Defense: {pokeVal.stats[2].base_stat}</span>
+                                    </div>
+                                    <div>
+                                        <span>Abilities: </span>
+                                        <ul className='flex flex-col mb-2 pl-2 flex-wrap-reverse'>
+                                            {
+                                                pokeVal.abilities.map(currAbility => <li className='list-disc'>{captilizeFirstLetter(currAbility.ability.name)}</li>)
+                                            }
+                                        </ul>
+                                    </div>
+                                </div></Link>
+                            </div>
                         </>)
                     }) : (
                         <div>
