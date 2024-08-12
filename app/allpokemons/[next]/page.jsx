@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import Pagecontrols from '../../pagecontrols/page';
-import CardSkeleton from '@/components/CardSkeleton';
+// import CardSkeleton from '@/components/CardSkeleton';
+import Loading from './loading';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -50,14 +51,13 @@ const Allpokemons = async ({ params }) => {
 
     return (
         <>
-            <Suspense fallback={<div className="flex justify-center flex-wrap font-mono">
-                {Array.from({ length: 8 }).map((_, index) => (
-                    <div key={index} className="m-4">
-                        <CardSkeleton />
-                    </div>
-                ))}
+            <Suspense fallback={<div className='flex justify-center flex-wrap'>
+                {Array.from({ length: 8 }).map((_, index) => {
+                    return (<div key={index} className="m-4">
+                        <Loading />
+                    </div>)
+                })}
             </div>
-
             }>
                 {
                     (!Number.isInteger(offset) || offset < 0 || offset > 1296) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
@@ -67,10 +67,10 @@ const Allpokemons = async ({ params }) => {
                                     return (<>
                                         {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
                                         <div className='' key={pokeVal.name}>
-                                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto md:h-[31.2rem] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
+                                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto sm:h-[31.2rem] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
                                                 <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                                     <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
-                                                        <Image src={pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill />
+                                                        <Image src={pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true}/>
                                                     </div>
                                                 </div>
                                                 <div className="pokeName flex justify-center mt-3">
@@ -82,7 +82,7 @@ const Allpokemons = async ({ params }) => {
                                                             return (<>
                                                                 <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
                                                                     <div className='w-7 h-7 relative'>
-                                                                        <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill />
+                                                                        <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill sizes='auto'/>
                                                                     </div>
                                                                     <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
                                                                 </div>
