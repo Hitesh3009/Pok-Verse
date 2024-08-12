@@ -20,7 +20,7 @@ export async function GET(req) {
             status:200
         });
     } catch (e) {
-        return new Response(JSON.stringify({error:'Some error occured while fetching the data for all pokemons',status:500}), {
+        return new Response(JSON.stringify({error:'Internal server error',status:500}), {
             headers: { 'Content-Type': 'application/json' }
         });
     }
