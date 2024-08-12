@@ -3,7 +3,7 @@ export async function GET(req) {
     console.log(offset);
     
     try {
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=8`);
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=12`);
         const data = await res.json();
 
         const detailedPokemonData = data.results.map(async (currentPokemon) => {

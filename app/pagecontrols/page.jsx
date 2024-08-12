@@ -12,13 +12,13 @@ const Pagecontrols = () => {
   }, [initialOffset]);
   
   const handlePrevClick = () => {
-    const newOffset = Math.max(0, offset - 8);
+    const newOffset = Math.max(0, offset - 12);
     setOffset(newOffset);
     router.replace(`/allpokemons/${parseInt(newOffset,10)}`);
   };
 
   const handleNextClick = () => {
-    const newOffset = offset + 8;
+    const newOffset = offset + 12;
     setOffset(newOffset);
     router.replace(`/allpokemons/${parseInt(newOffset,10)}`);
   };

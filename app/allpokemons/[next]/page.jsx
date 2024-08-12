@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Pagecontrols from '../../pagecontrols/page';
 import CardSkeleton from '@/components/CardSkeleton';
 import Link from 'next/link';
 import Image from 'next/image';
-let loading = false;
+
 let data;
 const getAllPokemonData = async (offset) => {
     try {
         const res = await fetch(`http://localhost:3000/api/getallpokemons?offset=${offset}`);
         data = await res.json();
-        // loading = false;
         return data;
     }
     catch (e) {
@@ -44,77 +43,83 @@ const pokeNameColorWithIcon = {
     'water': { 'color': '#539ae2', 'icon': '/water_type.png' },
 };
 
-// if (data) {
-//     loading = true;
-// }
 
 const Allpokemons = async ({ params }) => {
-    const offset = parseInt(params.next, 10);
+    const offset = Number(params.next, 10);
     const pokeArr = await getAllPokemonData(offset);
 
     return (
         <>
-
-            {
-                (offset > 1296) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (loading ? <CardSkeleton /> : <>
-                    <div className="flex justify-center flex-wrap font-mono">
-                        {
-                            pokeArr.length > 0 ? pokeArr.map((pokeVal) => {
-                                return (<>
-                                    {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                                    <div className=''>
-                                        <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto md:h-[31.2rem] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
-                                            <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
-                                                <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
-                                                    <Image src={pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill />
-                                                </div>
-                                            </div>
-                                            <div className="pokeName flex justify-center mt-3">
-                                                <span className='text-2xl text-center font-bold'>{captilizeFirstLetter(pokeVal.name)}</span>
-                                            </div>
-                                            <div className="pokeType flex justify-evenly" key={pokeVal.id}>
-                                                {
-                                                    pokeVal.types.map((val) => {
-                                                        return (<>
-                                                            <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
-                                                                <div className='w-7 h-7 relative'>
-                                                                    <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill/>
-                                                                </div>
-                                                                <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
-                                                            </div>
-                                                        </>)
-                                                    })
-                                                }
-                                            </div>
-                                            <div className="pokeStats flex justify-between flex-wrap">
-                                                <span>Height: {pokeVal.height}</span>
-                                                <span>Weight: {pokeVal.weight}</span>
-                                                <span>Speed: {pokeVal.stats[5].base_stat}</span>
-                                                <span>Experience: {pokeVal.base_experience}</span>
-                                                <span>Attack: {pokeVal.stats[1].base_stat}</span>
-                                                <span>Defense: {pokeVal.stats[2].base_stat}</span>
-                                            </div>
-                                            <div>
-                                                <span>Abilities: </span>
-                                                <ul className='flex flex-col mb-2 pl-2 flex-wrap-reverse'>
-                                                    {
-                                                        pokeVal.abilities.map(currAbility => <li className='list-disc'>{captilizeFirstLetter(currAbility.ability.name)}</li>)
-                                                    }
-                                                </ul>
-                                            </div>
-                                        </div></Link>
-                                    </div>
-                                </>)
-                            }) : (
-                                <div>
-                                    <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{captilizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
-                                </div>
-                            )
-                        }
+            <Suspense fallback={<div className="flex justify-center flex-wrap font-mono">
+                {Array.from({ length: 8 }).map((_, index) => (
+                    <div key={index} className="m-4">
+                        <CardSkeleton />
                     </div>
-                    <Pagecontrols />
-                </>)
-            }
+                ))}
+            </div>
+
+            }>
+                {
+                    (!Number.isInteger(offset) || offset < 0 || offset > 1296) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
+                        <div className="flex justify-center flex-wrap font-mono">
+                            {
+                                pokeArr.length > 0 ? pokeArr.map((pokeVal) => {
+                                    return (<>
+                                        {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
+                                        <div className='' key={pokeVal.name}>
+                                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto md:h-[31.2rem] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
+                                                <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
+                                                    <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
+                                                        <Image src={pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill />
+                                                    </div>
+                                                </div>
+                                                <div className="pokeName flex justify-center mt-3">
+                                                    <span className='text-2xl text-center font-bold'>{captilizeFirstLetter(pokeVal.name)}</span>
+                                                </div>
+                                                <div className="pokeType flex justify-evenly" key={pokeVal.id}>
+                                                    {
+                                                        pokeVal.types.map((val) => {
+                                                            return (<>
+                                                                <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
+                                                                    <div className='w-7 h-7 relative'>
+                                                                        <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill />
+                                                                    </div>
+                                                                    <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
+                                                                </div>
+                                                            </>)
+                                                        })
+                                                    }
+                                                </div>
+                                                <div className="pokeStats flex justify-between flex-wrap">
+                                                    <span>Height: {pokeVal.height}</span>
+                                                    <span>Weight: {pokeVal.weight}</span>
+                                                    <span>Speed: {pokeVal.stats[5].base_stat}</span>
+                                                    <span>Experience: {pokeVal.base_experience}</span>
+                                                    <span>Attack: {pokeVal.stats[1].base_stat}</span>
+                                                    <span>Defense: {pokeVal.stats[2].base_stat}</span>
+                                                </div>
+                                                <div>
+                                                    <span>Abilities: </span>
+                                                    <ul className='flex flex-col mb-2 pl-2 flex-wrap-reverse'>
+                                                        {
+                                                            pokeVal.abilities.map((currAbility, index) => <li className='list-disc' key={index}>{captilizeFirstLetter(currAbility.ability.name)}</li>)
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div></Link>
+                                        </div>
+                                    </>)
+                                }) : (
+                                    <div>
+                                        <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{captilizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
+                                    </div>
+                                )
+                            }
+                        </div>
+                        <Pagecontrols />
+                    </>)
+                }
+            </Suspense>
 
         </>
     )
