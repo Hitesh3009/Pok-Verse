@@ -1,11 +1,12 @@
 import React, { Suspense } from 'react'
 import Pagecontrols from '../../pagecontrols/page';
-// import CardSkeleton from '@/components/CardSkeleton';
-import Loading from './loading';
 import Link from 'next/link';
 import Image from 'next/image';
+import UserInput from '@/app/userinput/page';
 
 let data;
+const Loading = React.lazy(() => import('./loading'));
+
 const getAllPokemonData = async (offset) => {
     try {
         const res = await fetch(`http://localhost:3000/api/getallpokemons?offset=${offset}`);
@@ -14,7 +15,6 @@ const getAllPokemonData = async (offset) => {
     }
     catch (e) {
         let error_msg = 'Some error occured while fetching the data for pokemons.';
-        // loading = false;
         return { data: null, message: error_msg };
     }
 }
@@ -45,12 +45,16 @@ const pokeNameColorWithIcon = {
 };
 
 
-const Allpokemons = async ({ params }) => {
+const Allpokemons = async ({ params ,searchParams}) => {
     const offset = Number(params.next, 10);
     const pokeArr = await getAllPokemonData(offset);
-
+    const userInp= searchParams.input||'';
+    const filterPokemon = pokeArr.filter((currPokemon) => {
+        return currPokemon.name.toLowerCase().includes(userInp.toLowerCase());
+    });
     return (
         <>
+            <UserInput/>
             <Suspense fallback={<div className='flex justify-center flex-wrap'>
                 {Array.from({ length: 8 }).map((_, index) => {
                     return (<div key={index} className="m-4">
@@ -63,7 +67,7 @@ const Allpokemons = async ({ params }) => {
                     (!Number.isInteger(offset) || offset < 0 || offset > 1296) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
                         <div className="flex justify-center flex-wrap font-mono">
                             {
-                                pokeArr.length > 0 ? pokeArr.map((pokeVal) => {
+                                filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
                                     return (<>
                                         {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
                                         <div className='' key={pokeVal.name}>
