@@ -1,6 +1,5 @@
 export async function GET(req) {
     const offset=req.nextUrl.searchParams.get('offset');
-    console.log(offset);
     
     try {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=12`);

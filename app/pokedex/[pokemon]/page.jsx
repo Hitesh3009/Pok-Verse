@@ -43,12 +43,14 @@ const Pokemon = async ({ params }) => {
     const pokemon = params.pokemon;
     const pokeData = await getPokeData(pokemon);
     const movesArr = await getPokeMoves(pokemon);
+    console.log(movesArr);
+    
     return (
         <>
             <Suspense fallback={<Loading />}>
                 <div className='flex justify-start md:mt-10 sm:m-5'>
                     {
-                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-72 h-auto px-5 pt-2 space-y-4 font-mono md:animate-slideToLeft animate-slideToBottom">
+                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-72 h-[31.2rem] px-5 pt-2 space-y-4 font-mono md:animate-slideToLeft animate-slideToBottom">
                             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                 <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
                                     <Image src={pokeData.sprites.other.dream_world.front_default ? pokeData.sprites.other.dream_world.front_default : pokeData.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true} />
@@ -97,25 +99,25 @@ const Pokemon = async ({ params }) => {
                             </div>
                         </>
                     }
-                    <div className="ml-10 flex flex-col justify-between bg-gray-400 flex-wrap w-full p-3">
+                    <div className="ml-10 flex flex-col justify-between bg-gray-500 text-white flex-wrap w-full p-3">
                         {
                             movesArr.map(move => {
                                 return (<>
                                     <div className='inline-flex items-center text-justify w-full'>
-                                        <img src={move&&pokeNameColorWithIcon[move.type.name].icon} alt="Attack Type" className='w-7 h-7 text-xs'/>
+                                        <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-7 h-7 text-xs border-2 border-black rounded-full' />
                                         {/* <p>{move.type.name}</p> */}
-                                        <p className='mx-3'>{move && captilizeFirstLetter(move.name) }</p>
+                                        <p className='mx-3'>{move && captilizeFirstLetter(move.move_name)}</p>
                                     </div>
                                     <div className="flex">
                                         <div>
-                                        <p className='mx-3'>{move && captilizeFirstLetter(move.effect_entries[0].effect) }</p>
+                                            <p className='mx-3'>{move && captilizeFirstLetter(move.move_effect)}</p>
                                         </div>
                                     </div>
                                 </>);
                             })
                         }
                     </div>
-                    
+
                 </div>
             </Suspense>
         </>
