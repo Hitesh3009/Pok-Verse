@@ -9,8 +9,9 @@ export async function GET(req){
             status: 200
         });
     }catch(e){
-        return new Response(JSON.stringify({error:`No pokemon data available for ${pokemonName}`,status: 404}),{
+        return new Response(JSON.stringify({error:`No pokemon data available for ${pokemonName}`}),{
             headers: {'Content-Type': 'application/json'},
+            status: 404
         });
     }
 }

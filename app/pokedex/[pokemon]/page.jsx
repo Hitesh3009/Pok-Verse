@@ -12,6 +12,12 @@ const getPokeData = async (pokemon) => {
     return data;
 }
 
+const getPokeMoves = async (pokemon) => {
+    const res = await fetch(`http://localhost:3000/api/moves?pokemon=${pokemon}`);
+    const data = await res.json();
+    return data;
+}
+
 const pokeNameColorWithIcon = {
     'bug': { 'color': '#94bc4a', 'icon': '/bug_type.png' },
     'dark': { 'color': '#736c75', 'icon': '/dark_type.png' },
@@ -36,12 +42,13 @@ const pokeNameColorWithIcon = {
 const Pokemon = async ({ params }) => {
     const pokemon = params.pokemon;
     const pokeData = await getPokeData(pokemon);
+    const movesArr = await getPokeMoves(pokemon);
     return (
         <>
-            <Suspense fallback={<Loading/>}>
-                <div className='flex flex-col items-center md:items-start'>
+            <Suspense fallback={<Loading />}>
+                <div className='flex justify-start md:mt-10 sm:m-5'>
                     {
-                        !pokeData.error ? (<div className="card border-2 border-black w-[17.5rem] md:w-72 h-auto m-5 md:mt-10 md:ml-14 px-5 pt-2 space-y-4 font-mono md:animate-slideToLeft animate-slideToBottom">
+                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-72 h-auto px-5 pt-2 space-y-4 font-mono md:animate-slideToLeft animate-slideToBottom">
                             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                 <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
                                     <Image src={pokeData.sprites.other.dream_world.front_default ? pokeData.sprites.other.dream_world.front_default : pokeData.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true} />
@@ -81,12 +88,34 @@ const Pokemon = async ({ params }) => {
                                     }
                                 </ul>
                             </div>
-                        </div>) : <>
+                        </div>
+
+                        </>
+                        ) : <>
                             <div className="flex flex-col items-center min-h-screen">
                                 <p className='text-3xl font-bold my-auto'>{pokeData.error}</p>
                             </div>
                         </>
                     }
+                    <div className="ml-10 flex flex-col justify-between bg-gray-400 flex-wrap w-full p-3">
+                        {
+                            movesArr.map(move => {
+                                return (<>
+                                    <div className='inline-flex items-center text-justify w-full'>
+                                        <img src={move&&pokeNameColorWithIcon[move.type.name].icon} alt="Attack Type" className='w-7 h-7 text-xs'/>
+                                        {/* <p>{move.type.name}</p> */}
+                                        <p className='mx-3'>{move && captilizeFirstLetter(move.name) }</p>
+                                    </div>
+                                    <div className="flex">
+                                        <div>
+                                        <p className='mx-3'>{move && captilizeFirstLetter(move.effect_entries[0].effect) }</p>
+                                        </div>
+                                    </div>
+                                </>);
+                            })
+                        }
+                    </div>
+                    
                 </div>
             </Suspense>
         </>
