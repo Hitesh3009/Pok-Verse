@@ -13,8 +13,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}
-        <footer><Footer/></footer>
+      <body className={`${inter.className} flex flex-col`}>{children}
+        <footer>
+          <Footer/>
+        </footer>
       </body>
       <Script src="https://kit.fontawesome.com/52afc80947.js" crossOrigin="anonymous"/>
     </html>

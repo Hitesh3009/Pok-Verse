@@ -2,35 +2,36 @@ import React from 'react'
 import Link from 'next/link'
 const Footer = () => {
     return (
-        <div className='bg-black p-3'>
-            <h2 className='text-white text-center text-2xl'>Developed By <em className='font-bold'>Hitesh Eknath Bhosale</em></h2>
-            <div className='h-auto w-full flex md: justify-center py-5'>
-                <div className="w-[70vw] h-44 items-center flex lg:justify-around">
-                    <div className='text-white flex flex-col justify-center'>
-                        <div className="flex my-1">
-                            <i className="fa-solid fa-location-dot text-xl border-2 p-2 border-white rounded-full"></i>
-                            <span className='text-lg mx-2 tracking-widest'>Mumbai, India</span>
+        <>
+            <div className='bg-black w-full pt-4'>
+                <h2 className='text-white text-2xl lg:text-3xl text-center tracking-widest'>Developed by</h2>
+                <p className='text-xl lg:text-2xl text-white text-center font-bold font-mono mt-4 tracking-wider'>Hitesh Eknath Bhosale</p>
+                <div className='flex flex-col items-center md:flex-row md:justify-around'>
+                    <div className='details flex flex-col text-sm md:text-base mt-3 md:my-5'>
+                        <div className='location text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
+                            <i className="fa-solid fa-location-dot text-xl mx-2"></i>
+                            <span className='mx-2 tracking-widest'>Mumbai, India</span>
                         </div>
-                        <div className="flex my-1">
-                            <i className="fa-solid fa-phone text-xl border-2 p-2 border-white rounded-full"></i>
-                            <span className='text-lg mx-2 tracking-widest'>+91 8286043188</span>
+                        <div className='phone text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
+                            <i className="fa-solid fa-phone text-xl mx-2"></i>
+                            <span className='mx-2 tracking-widest'>+91 8286043188</span>
                         </div>
-                        <div className="flex my-1">
-                            <i className="fa-solid fa-envelope text-xl border-2 p-2 border-white rounded-full"></i>
-                            <Link href='mailto:hiteshbhosle37906@gmail.com'><span className='text-lg mx-2 tracking-widest'>hiteshbhosle37906@gmail.com</span></Link>
+                        <div className='email text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
+                            <i className="fa-solid fa-envelope text-xl mx-2"></i>
+                            <Link href='mailto: hiteshbhosle37906@gmail.com' className='hover:underline'><span className='mx-2 tracking-widest'>hiteshbhosle37906@gmail.com</span></Link>
                         </div>
                     </div>
-                    <div className='text-white'>
-                        <p className='text-2xl font-bold'>Social Media Handles:</p>
-                        <div className='flex mt-4'>
-                        <Link href='https://www.instagram.com/hitesh.e.bhosale/'><i class="fa-brands fa-instagram text-2xl border-2 border-white p-2 rounded-full mx-4"></i></Link>
-                        <Link href='https://www.linkedin.com/in/hitesh-bhosale-46882b215/'><i class="fa-brands fa-linkedin text-2xl border-2 border-white p-2 rounded-full mx-4"></i></Link>
-                        <Link href='https://github.com/Hitesh3009'><i class="fa-brands fa-github text-2xl border-2 border-white p-2 rounded-full mx-4"></i></Link>
+                    <div className='socialMedia flex flex-col text-sm md:text-base mt-3 md:my-5'>
+                        <h2 className='text-xl lg:text-2xl text-white text-center px-2'>Connect on Social Media Platforms</h2>
+                        <div className='instagram text-white flex justify-center items-center my-4'>
+                            <Link href='https://www.instagram.com/hitesh.e.bhosale/'><i className="fa-brands fa-instagram text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href='https://www.linkedin.com/in/hitesh-bhosale-46882b215/'><i className="fa-brands fa-linkedin text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href='https://github.com/Hitesh3009'><i className="fa-brands fa-github text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
