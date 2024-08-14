@@ -43,14 +43,15 @@ const Pokemon = async ({ params }) => {
     const pokemon = params.pokemon;
     const pokeData = await getPokeData(pokemon);
     const movesArr = await getPokeMoves(pokemon);
-    console.log(movesArr);
-    
+    // console.log(movesArr);
+
     return (
         <>
             <Suspense fallback={<Loading />}>
-                <div className='flex justify-start md:mt-10 sm:m-5'>
+                <div className='flex flex-col items-center lg:items-start lg:justify-start lg:flex-row lg:mt-10 sm:m-5'>
                     {
-                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-72 h-[31.2rem] px-5 pt-2 space-y-4 font-mono md:animate-slideToLeft animate-slideToBottom">
+                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-[31.2rem] px-5 pt-2 space-y-4 font-mono mt-7 lg:mt-0">
+                             {/* md:animate-slideToLeft animate-slideToBottom */}
                             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                 <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
                                     <Image src={pokeData.sprites.other.dream_world.front_default ? pokeData.sprites.other.dream_world.front_default : pokeData.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true} />
@@ -99,23 +100,47 @@ const Pokemon = async ({ params }) => {
                             </div>
                         </>
                     }
-                    <div className="ml-10 flex flex-col justify-between bg-gray-500 text-white flex-wrap w-full p-3">
-                        {
-                            movesArr.map(move => {
-                                return (<>
-                                    <div className='inline-flex items-center text-justify w-full'>
-                                        <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-7 h-7 text-xs border-2 border-black rounded-full' />
-                                        {/* <p>{move.type.name}</p> */}
-                                        <p className='mx-3'>{move && captilizeFirstLetter(move.move_name)}</p>
-                                    </div>
-                                    <div className="flex">
-                                        <div>
-                                            <p className='mx-3'>{move && captilizeFirstLetter(move.move_effect)}</p>
-                                        </div>
-                                    </div>
-                                </>);
-                            })
-                        }
+
+                    <div className="px-5 lg:px-0 my-5 lg:my-0 lg:ml-10 flex flex-col flex-wrap w-full">
+                        <table className='border-2 border-black border-collapse'>
+                            <thead>
+                                <tr>
+                                    <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse' >Move Type</th>
+                                    <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse' >Move Name</th>
+                                    <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse'>Effect</th>
+                                </tr>
+                            </thead>
+                            <tbody className='text-sm md:text-base'>
+                                {
+                                    movesArr.length > 0 ? movesArr.map((move,index) => {
+                                        return (<>
+
+                                            <tr key={index} className='border-2 border-black'>
+                                                <td className='border-2 border-black p-3' >
+                                                    <div className='flex items-center justify-center'>
+                                                        <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-6 h-6 md:w-7 md:h-7 text-xs border-2 border-black rounded-full' />
+                                                    </div>
+                                                </td>
+                                                <td className='border-2 border-black w-36'>
+                                                    <div className='flex items-center justify-center'>
+                                                    <p className=''>{move && captilizeFirstLetter(move.move_name)}</p>
+                                                    </div>
+                                                </td>
+                                                <td className='p-3'>
+                                                    <div className="flex">
+                                                        <div>
+                                                            <p className='mx-3 text-pretty'>{move && captilizeFirstLetter(move.move_effect)}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </>);
+                                    }) : <tr>
+                                        <td colSpan="2" className='p-3 text-center'>Data not available for this pokemon</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -124,4 +149,13 @@ const Pokemon = async ({ params }) => {
     )
 }
 
+{/* <div className='inline-flex items-center text-justify w-full'>
+    <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-7 h-7 text-xs border-2 border-black rounded-full' />
+    <p className='mx-3'>{move && captilizeFirstLetter(move.move_name)}</p>
+</div>
+<div className="flex">
+    <div>
+        <p className='mx-3'>{move && captilizeFirstLetter(move.move_effect)}</p>
+    </div>
+</div> */}
 export default Pokemon

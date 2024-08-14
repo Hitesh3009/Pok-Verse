@@ -14,7 +14,7 @@ export async function GET(req) {
             pokemonType.push(type);
         }
 
-        console.log(pokemonType);
+        // console.log(pokemonType);
         const detailedResponse = await Promise.all(movesArr);
         const reducedMovesArr = [];
         for(let i = 0; i < detailedResponse.length; i++){
@@ -25,7 +25,7 @@ export async function GET(req) {
                 const moveEffect = ele.effect_entries[0].effect;
                 for(let j=0;j<pokemonType.length;j++){
                     if (moveType === pokemonType[j]) {
-                        if(reducedMovesArr.length===10){
+                        if(reducedMovesArr.length===7){
                             break;
                         }
                         else{
