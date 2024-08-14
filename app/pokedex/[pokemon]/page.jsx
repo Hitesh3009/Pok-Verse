@@ -50,7 +50,7 @@ const Pokemon = async ({ params }) => {
             <Suspense fallback={<Loading />}>
                 <div className='flex flex-col items-center lg:items-start lg:justify-start lg:flex-row lg:mt-10 sm:m-5'>
                     {
-                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-[31.2rem] px-5 pt-2 space-y-4 font-mono mt-7 lg:mt-0">
+                        !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-[31.2rem] px-5 pt-2 space-y-4 font-mono mt-7 lg:mt-0 animate-slideToBottom md:animate-slideToLeft">
                              {/* md:animate-slideToLeft animate-slideToBottom */}
                             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                 <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
@@ -62,9 +62,9 @@ const Pokemon = async ({ params }) => {
                             </div>
                             <div className="pokeType flex justify-evenly" >
                                 {
-                                    pokeData.types.map((val) => {
+                                    pokeData.types.map((val,index) => {
                                         return (<>
-                                            <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
+                                            <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
                                                 <div className='w-7 h-7 relative'>
                                                     <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill sizes='auto' />
                                                 </div>
@@ -87,7 +87,7 @@ const Pokemon = async ({ params }) => {
                                 <span>Abilities: </span>
                                 <ul className='flex flex-col mb-2 pl-2'>
                                     {
-                                        pokeData.abilities.map(currAbility => <li className='list-disc'>{captilizeFirstLetter(currAbility.ability.name)}</li>)
+                                        pokeData.abilities.map((currAbility,index) => <li className='list-disc' key={index}>{captilizeFirstLetter(currAbility.ability.name)}</li>)
                                     }
                                 </ul>
                             </div>
@@ -101,8 +101,8 @@ const Pokemon = async ({ params }) => {
                         </>
                     }
 
-                    <div className="px-5 lg:px-0 my-5 lg:my-0 lg:ml-10 flex flex-col flex-wrap w-full">
-                        <table className='border-2 border-black border-collapse'>
+                    <div className="px-5 lg:px-0 my-5 lg:my-0 lg:ml-10 flex flex-col flex-wrap w-full overflow-x-hidden">
+                        <table className='border-2 border-black border-collapse animate-fade lg:animate-slideToRight '>
                             <thead>
                                 <tr>
                                     <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse' >Move Type</th>
@@ -149,13 +149,4 @@ const Pokemon = async ({ params }) => {
     )
 }
 
-{/* <div className='inline-flex items-center text-justify w-full'>
-    <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-7 h-7 text-xs border-2 border-black rounded-full' />
-    <p className='mx-3'>{move && captilizeFirstLetter(move.move_name)}</p>
-</div>
-<div className="flex">
-    <div>
-        <p className='mx-3'>{move && captilizeFirstLetter(move.move_effect)}</p>
-    </div>
-</div> */}
 export default Pokemon

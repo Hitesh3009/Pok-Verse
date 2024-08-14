@@ -18,6 +18,18 @@ module.exports = {
             transform: 'translateX(-20%)'
           }
         },
+        slideToRight: {
+          '0%': {
+            transform: 'translateX(-20%)',
+            backgroundColor: 'white',
+            opacity:0
+          },
+          '100%': {
+            transform: 'translateX(0%)',
+            backgroundColor: 'white',
+            opacity:1
+          }
+        },
         slideToBottom: {
           '0%': {
             transform: 'translateY(-100%)'
@@ -25,11 +37,17 @@ module.exports = {
           '100%': {
             transform: 'translateY(5%)'
           }
-        }
+        },
+        fadeIn: {
+          '0%': { backgroundColor: 'white',opacity:0 },
+          '100%': { backgroundColor:'white',opacity:1 },
+        },
       },
       animation:{
-        slideToLeft:'slideToLeft 1s linear 1',
-        slideToBottom:'slideToBottom 1s linear 1',
+        slideToLeft:'slideToLeft 0.75s linear 1',
+        slideToBottom:'slideToBottom 0.8s linear 1',
+        slideToRight:'slideToRight 5s ease',
+        fade: 'fadeIn 6s ease',
       }
 
     },
