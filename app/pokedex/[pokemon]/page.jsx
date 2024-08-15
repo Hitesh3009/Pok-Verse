@@ -18,6 +18,11 @@ const getPokeMoves = async (pokemon) => {
     return data;
 }
 
+const getEffectiveMove = async () => {
+    const res = await fetch(`http://localhost:3000/api/moveeffectiveness`);
+    const data = await res.json();
+    return data;
+}
 const pokeNameColorWithIcon = {
     'bug': { 'color': '#94bc4a', 'icon': '/bug_type.png' },
     'dark': { 'color': '#736c75', 'icon': '/dark_type.png' },
@@ -43,7 +48,8 @@ const Pokemon = async ({ params }) => {
     const pokemon = params.pokemon;
     const pokeData = await getPokeData(pokemon);
     const movesArr = await getPokeMoves(pokemon);
-    // console.log(movesArr);
+    const effectiveMove = await getEffectiveMove();
+    // console.log(effectiveMove);
 
     return (
         <>
@@ -51,7 +57,7 @@ const Pokemon = async ({ params }) => {
                 <div className='flex flex-col items-center lg:items-start lg:justify-start lg:flex-row lg:mt-10 sm:m-5'>
                     {
                         !pokeData.error ? (<><div className="card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-[31.2rem] px-5 pt-2 space-y-4 font-mono mt-7 lg:mt-0 animate-slideToBottom md:animate-slideToLeft">
-                             {/* md:animate-slideToLeft animate-slideToBottom */}
+                            {/* md:animate-slideToLeft animate-slideToBottom */}
                             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                 <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
                                     <Image src={pokeData.sprites.other.dream_world.front_default ? pokeData.sprites.other.dream_world.front_default : pokeData.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true} />
@@ -62,15 +68,15 @@ const Pokemon = async ({ params }) => {
                             </div>
                             <div className="pokeType flex justify-evenly" >
                                 {
-                                    pokeData.types.map((val,index) => {
-                                        return (<>
+                                    pokeData.types.map((val, index) => {
+                                        return (
                                             <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
                                                 <div className='w-7 h-7 relative'>
                                                     <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill sizes='auto' />
                                                 </div>
                                                 <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
                                             </div>
-                                        </>)
+                                        )
                                     })
                                 }
 
@@ -87,18 +93,18 @@ const Pokemon = async ({ params }) => {
                                 <span>Abilities: </span>
                                 <ul className='flex flex-col mb-2 pl-2'>
                                     {
-                                        pokeData.abilities.map((currAbility,index) => <li className='list-disc' key={index}>{captilizeFirstLetter(currAbility.ability.name)}</li>)
+                                        pokeData.abilities.map((currAbility, index) => <li className='list-disc' key={index}>{captilizeFirstLetter(currAbility.ability.name)}</li>)
                                     }
                                 </ul>
                             </div>
                         </div>
 
                         </>
-                        ) : <>
+                        ) :
                             <div className="flex flex-col items-center min-h-screen">
                                 <p className='text-3xl font-bold my-auto'>{pokeData.error}</p>
                             </div>
-                        </>
+
                     }
 
                     <div className="px-5 lg:px-0 my-5 lg:my-0 lg:ml-10 flex flex-col flex-wrap w-full overflow-x-hidden">
@@ -112,9 +118,8 @@ const Pokemon = async ({ params }) => {
                             </thead>
                             <tbody className='text-sm md:text-base'>
                                 {
-                                    movesArr.length > 0 ? movesArr.map((move,index) => {
-                                        return (<>
-
+                                    movesArr.length > 0 ? movesArr.map((move, index) => {
+                                        return (
                                             <tr key={index} className='border-2 border-black'>
                                                 <td className='border-2 border-black p-3' >
                                                     <div className='flex items-center justify-center'>
@@ -123,7 +128,7 @@ const Pokemon = async ({ params }) => {
                                                 </td>
                                                 <td className='border-2 border-black w-36'>
                                                     <div className='flex items-center justify-center'>
-                                                    <p className=''>{move && captilizeFirstLetter(move.move_name)}</p>
+                                                        <p className=''>{move && captilizeFirstLetter(move.move_name)}</p>
                                                     </div>
                                                 </td>
                                                 <td className='p-3'>
@@ -134,7 +139,7 @@ const Pokemon = async ({ params }) => {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </>);
+                                        );
                                     }) : <tr>
                                         <td colSpan="2" className='p-3 text-center'>Data not available for this pokemon</td>
                                     </tr>
@@ -142,7 +147,137 @@ const Pokemon = async ({ params }) => {
                             </tbody>
                         </table>
                     </div>
+                </div>
 
+                <div className=' flex justify-center'>
+                    <div>
+                        <table className='animate-fade'>
+                            <thead>
+                                <tr>
+                                    <th className='border-2 border-black border-collapse p-2' scope='column'>Damage Relation / Pokemon Type</th>
+                                    {
+                                        pokeData.types.map(val => {
+                                            return (
+                                                <th className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-evenly items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(val.type.name)}</span>
+                                                    </div>
+                                                </th>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Less Effective Against</th>
+                                    {
+                                        effectiveMove.double_damage_from.map(type => {
+                                            return (
+                                                <td className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-evenly items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Most Effective Against</th>
+                                    {
+                                        effectiveMove.double_damage_to.map(type => {
+                                            return (
+                                                <td className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-evenly items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Half Damage from</th>
+                                    {
+                                        effectiveMove.half_damage_from.map(type => {
+                                            return (
+                                                <td className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-evenly items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Half Damage Against</th>
+                                    {
+                                        effectiveMove.half_damage_to.map(type => {
+                                            return (
+                                                <td className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-center items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <th scope='row' className='border-2 border-black border-collapse p-2'>No Damage From</th>
+                                    {
+                                        effectiveMove.no_damage_from.map(type => {
+                                            return (
+                                                <td className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-center items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <th scope='row' className='border-2 border-black border-collapse p-2'>No Damage Against</th>
+                                    {
+                                        effectiveMove.no_damage_to.map(type => {
+                                            return (
+                                                <td className='border-2 border-black border-collapse p-2'>
+                                                    <div className='flex justify-center items-center space-x-2'>
+                                                        <div className='w-7 h-7 relative'>
+                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
+                                                        </div>
+                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </Suspense>
         </>
