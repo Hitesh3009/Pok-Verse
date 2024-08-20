@@ -1,8 +1,10 @@
-export async function GET() {
+export async function GET(req) {
+    const type=req.nextUrl.searchParams.get('type');
+    
     try {
-        const res = await fetch(`https://pokeapi.co/api/v2/type/normal`);
+        const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
         if(!res.ok){
-            throw new Error('Erro while fetching data for move effectiveness',res.statusText);
+            throw new Error('Error while fetching data for move effectiveness',res.statusText);
         }
         const data = await res.json();
         const damage_relations=data.damage_relations;

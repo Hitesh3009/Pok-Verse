@@ -18,10 +18,14 @@ const getPokeMoves = async (pokemon) => {
     return data;
 }
 
-const getEffectiveMove = async () => {
-    const res = await fetch(`http://localhost:3000/api/moveeffectiveness`);
-    const data = await res.json();
-    return data;
+const getEffectiveMove = async (pokeTypeArr) => {
+    const EffectivenessObj = {};
+    await Promise.all(pokeTypeArr.map(async (type) => {
+        const res = await fetch(`http://localhost:3000/api/moveeffectiveness?type=${type}`);
+        const data = await res.json();
+        EffectivenessObj[type] = data;
+    }));
+    return EffectivenessObj;
 }
 const pokeNameColorWithIcon = {
     'bug': { 'color': '#94bc4a', 'icon': '/bug_type.png' },
@@ -48,8 +52,12 @@ const Pokemon = async ({ params }) => {
     const pokemon = params.pokemon;
     const pokeData = await getPokeData(pokemon);
     const movesArr = await getPokeMoves(pokemon);
-    const effectiveMove = await getEffectiveMove();
-    // console.log(effectiveMove);
+    let pokeTypeArr = [];
+    for (let i = 0; i < pokeData.types.length; i++) {
+        const type = pokeData.types[i].type.name;
+        pokeTypeArr.push(type);
+    }
+    const effectiveMove = await getEffectiveMove(pokeTypeArr);
 
     return (
         <>
@@ -68,13 +76,13 @@ const Pokemon = async ({ params }) => {
                             </div>
                             <div className="pokeType flex justify-evenly" >
                                 {
-                                    pokeData.types.map((val, index) => {
+                                    pokeTypeArr.map((type, index) => {
                                         return (
-                                            <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
+                                            <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[type].color }} key={index}>
                                                 <div className='w-7 h-7 relative'>
-                                                    <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill sizes='auto' />
+                                                    <Image src={pokeNameColorWithIcon[type].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill sizes='auto' />
                                                 </div>
-                                                <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
+                                                <span className={`mx-1.5 text-white`} >{type}</span>
                                             </div>
                                         )
                                     })
@@ -149,134 +157,146 @@ const Pokemon = async ({ params }) => {
                     </div>
                 </div>
 
-                <div className=' flex justify-center'>
-                    <div>
-                        <table className='animate-fade'>
-                            <thead>
-                                <tr>
-                                    <th className='border-2 border-black border-collapse p-2' scope='column'>Damage Relation / Pokemon Type</th>
-                                    {
-                                        pokeData.types.map(val => {
-                                            return (
-                                                <th className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-evenly items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(val.type.name)}</span>
-                                                    </div>
-                                                </th>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Less Effective Against</th>
-                                    {
-                                        effectiveMove.double_damage_from.map(type => {
-                                            return (
-                                                <td className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-evenly items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
-                                                    </div>
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                <tr>
-                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Most Effective Against</th>
-                                    {
-                                        effectiveMove.double_damage_to.map(type => {
-                                            return (
-                                                <td className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-evenly items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
-                                                    </div>
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                <tr>
-                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Half Damage from</th>
-                                    {
-                                        effectiveMove.half_damage_from.map(type => {
-                                            return (
-                                                <td className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-evenly items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
-                                                    </div>
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                <tr>
-                                    <th scope='row' className='border-2 border-black border-collapse p-2'>Half Damage Against</th>
-                                    {
-                                        effectiveMove.half_damage_to.map(type => {
-                                            return (
-                                                <td className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-center items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
-                                                    </div>
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                <tr>
-                                    <th scope='row' className='border-2 border-black border-collapse p-2'>No Damage From</th>
-                                    {
-                                        effectiveMove.no_damage_from.map(type => {
-                                            return (
-                                                <td className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-center items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
-                                                    </div>
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                <tr>
-                                    <th scope='row' className='border-2 border-black border-collapse p-2'>No Damage Against</th>
-                                    {
-                                        effectiveMove.no_damage_to.map(type => {
-                                            return (
-                                                <td className='border-2 border-black border-collapse p-2'>
-                                                    <div className='flex justify-center items-center space-x-2'>
-                                                        <div className='w-7 h-7 relative'>
-                                                            <Image src={pokeNameColorWithIcon[type.name].icon} alt="Pokemon Type Icon" className='border-2 border-black rounded-full' fill sizes='auto' />
-                                                        </div>
-                                                        <span>{captilizeFirstLetter(type ? type.name : 'None')}</span>
-                                                    </div>
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
+                <div className="flex justify-center mb-7 animate-fade">
+                    <div className="bg-gray-600 md:p-10">
+                        <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider'>Moves Effectiveness</h1>
+                        <div className='p-4'>
+                            {
+                                pokeTypeArr.map((type, index) => {
+                                    const key = effectiveMove[type];
+                                    return (
+                                        <div key={index}>
+                                            <div className='flex items-center text-white p-3'>
+                                                <span className='mr-2 text-base md:text-2xl'>Attack Type : </span>
+                                                <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full">
+                                                    <Image src={pokeNameColorWithIcon[type].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                </div>
+                                                <span className='mx-3 text-base md:text-2xl'>{captilizeFirstLetter(type)}</span>
+                                            </div>
 
-                            </tbody>
-                        </table>
+                                            <div className='flex flex-wrap justify-evenly'>
+
+                                                <div className='my-3'>
+                                                    <ul>
+                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Double Damage From</h2>
+                                                        {
+                                                            key.double_damage_from.map((val, idx) => {
+                                                                return (
+                                                                    <li className='flex items-center text-white pl-10 text-sm'>
+                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
+                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                                        </div>
+                                                                        <span className='mx-3 text-base'>{val ? captilizeFirstLetter(val.name) : 'None'}</span>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+
+
+                                                <div className='my-3'>
+                                                    <ul>
+                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Double Damage To</h2>
+                                                        {
+                                                            key.double_damage_to.map((val, idx) => {
+                                                                return (
+                                                                    <li className='flex items-center text-white pl-10 text-sm'>
+                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
+                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                                        </div>
+                                                                        <span className='mx-3 text-base'>{val ? captilizeFirstLetter(val.name) : 'None'}</span>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+
+
+                                                <div className='my-3'>
+                                                    <ul>
+                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Half Damage From</h2>
+                                                        {
+                                                            key.half_damage_from.map((val, idx) => {
+                                                                return (
+                                                                    <li className='flex items-center text-white pl-10 text-sm'>
+                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
+                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                                        </div>
+                                                                        <span className='mx-3 text-base'>{val ? captilizeFirstLetter(val.name) : 'None'}</span>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+
+
+                                                <div className='my-3'>
+                                                    <ul>
+                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Half Damage To</h2>
+                                                        {
+                                                            key.half_damage_to.map((val, idx) => {
+                                                                return (
+                                                                    <li className='flex items-center text-white pl-10 text-sm'>
+                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
+                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                                        </div>
+                                                                        <span className='mx-3 text-base'>{val ? captilizeFirstLetter(val.name) : 'None'}</span>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+
+
+                                                <div className='my-3'>
+                                                    <ul>
+                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>No Damage From</h2>
+                                                        {
+                                                            key.no_damage_from.map((val, idx) => {
+                                                                return (
+                                                                    <li className='flex items-center text-white pl-10 text-sm'>
+                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
+                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                                        </div>
+                                                                        <span className='mx-3 text-base'>{val ? captilizeFirstLetter(val.name) : 'None'}</span>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+
+
+                                                <div className='my-3'>
+                                                    <ul>
+                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>No Damage To</h2>
+                                                        {
+                                                            key.no_damage_to.map((val, idx) => {
+                                                                return (
+                                                                    <li className='flex items-center text-white pl-10 text-sm'>
+                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
+                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
+                                                                        </div>
+                                                                        <span className='mx-3 text-base'>{val ? captilizeFirstLetter(val.name) : 'None'}</span>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
             </Suspense>

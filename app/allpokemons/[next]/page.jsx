@@ -71,7 +71,7 @@ const Allpokemons = async ({ params ,searchParams}) => {
                                     return (<>
                                         {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
                                         <div className='' key={pokeVal.name}>
-                                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto sm:h-[31.2rem] m-5 px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
+                                            <Link href={`/pokedex/${pokeVal.name}`}><div className="card border-2 border-black w-72 h-auto sm:h-[30.5rem] m-[1.4rem] px-5 pt-2 overflow-y-scroll space-y-4 hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105 scrollbar-hide ">
                                                 <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                                                     <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
                                                         <Image src={pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true}/>
