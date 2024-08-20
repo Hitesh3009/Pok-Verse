@@ -15,7 +15,7 @@ module.exports = {
             transform: 'translateX(400%)'
           },
           '100%': {
-            transform: 'translateX(-20%)'
+            transform: 'translateX(0%)'
           }
         },
         slideToRight: {
@@ -35,7 +35,7 @@ module.exports = {
             transform: 'translateY(-100%)'
           },
           '100%': {
-            transform: 'translateY(5%)'
+            transform: 'translateY(0%)'
           }
         },
         fadeIn: {

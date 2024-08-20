@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col`}>{children}
-        <footer>
+        <footer className="mt-auto">
           <Footer/>
         </footer>
       </body>
