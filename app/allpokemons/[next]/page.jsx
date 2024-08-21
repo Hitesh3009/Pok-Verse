@@ -71,7 +71,7 @@ const Allpokemons = async ({ params, searchParams }) => {
                                     return (
                                         (< div key = { pokeVal.name } >
                                             <Link href={`/pokedex/${pokeVal.name}`}>
-                                                <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} evolutionBtnActive={false} />
+                                                <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} individualPokecard={false} />
                                             </Link>
                                         </div>)
                         )

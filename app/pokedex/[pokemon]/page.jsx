@@ -67,7 +67,14 @@ const Pokemon = async ({ params }) => {
                 <div className='flex flex-col items-center lg:items-start lg:justify-start lg:flex-row sm:m-5 font-mono'>
                     {
                         !pokeData.error ? (<div className='flex flex-col'>
-                            <Cards pokeVal={pokeData} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} evolutionBtnActive={true} />
+                            <Cards pokeVal={pokeData} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} individualPokecard={true} />
+                            <p className='text-center font-semibold animate-fade'>Play Pokemon Cry</p>
+                            <div className='flex justify-center animate-fade'>
+                                <audio controls>
+                                    <source src={pokeData.cries.latest} type='audio/ogg' />
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
                             {/* <div className={`flex justify-center animate-fade mb-5 lg:mb-0`}>
                                 <Link href={`/pokedex/evolution`}><button className='bg-blue-600 px-3 py-2 text-white rounded-lg'>Check Evolution Status</button></Link>
                             </div> */}
@@ -166,7 +173,7 @@ const Pokemon = async ({ params }) => {
                                                             key.double_damage_to.length > 0 ? key.double_damage_to.map((val, idx) => {
                                                                 return (
                                                                     <li className='flex items-center text-white pl-10 text-sm' key={idx}>
-                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
+                                                                        <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -186,7 +193,7 @@ const Pokemon = async ({ params }) => {
                                                             key.half_damage_from.length > 0 ? key.half_damage_from.map((val, idx) => {
                                                                 return (
                                                                     <li className='flex items-center text-white pl-10 text-sm' key={idx}>
-                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
+                                                                        <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -206,7 +213,7 @@ const Pokemon = async ({ params }) => {
                                                             key.half_damage_to.length > 0 ? key.half_damage_to.map((val, idx) => {
                                                                 return (
                                                                     <li className='flex items-center text-white pl-10 text-sm' key={idx}>
-                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
+                                                                        <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -226,7 +233,7 @@ const Pokemon = async ({ params }) => {
                                                             key.no_damage_from.length > 0 ? key.no_damage_from.map((val, idx) => {
                                                                 return (
                                                                     <li className='flex items-center text-white pl-10 text-sm' key={idx}>
-                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
+                                                                        <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -246,7 +253,7 @@ const Pokemon = async ({ params }) => {
                                                             key.no_damage_to.length > 0 ? key.no_damage_to.map((val, idx) => {
                                                                 return (
                                                                     <li className='flex items-center text-white pl-10 text-sm' key={idx}>
-                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
+                                                                        <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
