@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import PokemonType from './PokemonType';
 const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon ,evolutionBtnActive}) => {
     return (
         <div className={`"card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-auto ${evolutionBtnActive===true?'h-auto':'sm:h-[30.5rem]'} m-[1.4rem] px-5 pt-2 space-y-4 ${evolutionBtnActive===true?'md:animate-slideToLeft animate-slideToBottom':'hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105'} scrollbar-hide`}>
@@ -13,15 +14,13 @@ const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon ,evolutio
             </div>
             <div className="pokeType flex justify-evenly" key={pokeVal.id}>
                 {
-                    pokeVal.types.map((val) => {
-                        return (<>
-                            <div className="flex items-center px-2 py-2 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }}>
-                                <div className='w-7 h-7 relative'>
-                                    <Image src={pokeNameColorWithIcon[val.type.name].icon} alt="Pokemon Type Icon" className='border-2 border-white rounded-full' fill sizes='auto' />
-                                </div>
-                                <span className={`mx-1.5 text-white`} key={val.slot} >{val.type.name}</span>
+                    pokeVal.types.map((val,index) => {
+                        return (
+                            <div className="flex items-center px-2 py-1 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
+                                <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.type.name}/>
+                                <span className={`mx-1.5 text-white`} key={val.slot} >{capitalizeFirstLetter(val.type.name)}</span>
                             </div>
-                        </>)
+                        )
                     })
                 }
             </div>

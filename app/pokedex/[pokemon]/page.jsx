@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import '../../globals.css';
-import Image from 'next/image';
 import Loading from './loading';
 import Cards from '@/components/Cards';
 import Link from 'next/link';
+import PokemonType from '@/components/PokemonType';
 const capitalizeFirstLetter = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
 }
@@ -68,9 +68,9 @@ const Pokemon = async ({ params }) => {
                     {
                         !pokeData.error ? (<div className='flex flex-col'>
                             <Cards pokeVal={pokeData} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} evolutionBtnActive={true} />
-                            <div className={`flex justify-center animate-fade mb-5 lg:mb-0`}>
+                            {/* <div className={`flex justify-center animate-fade mb-5 lg:mb-0`}>
                                 <Link href={`/pokedex/evolution`}><button className='bg-blue-600 px-3 py-2 text-white rounded-lg'>Check Evolution Status</button></Link>
-                            </div>
+                            </div> */}
                         </div>
                         ) :
                             <div className="flex flex-col items-center min-h-screen">
@@ -123,8 +123,8 @@ const Pokemon = async ({ params }) => {
 
 
                 <div className="flex justify-center mb-7 animate-fade font-mono">
-                    <div className="bg-gray-600 md:p-10">
-                        <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider'>Moves Effectiveness</h1>
+                    <div className="bg-violet-700 md:p-10">
+                        <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider mt-4 md:mt-0'>Moves Effectiveness</h1>
                         <div className='p-4'>
                             {
                                 pokeTypeArr.map((type, index) => {
@@ -133,9 +133,7 @@ const Pokemon = async ({ params }) => {
                                         <div key={index}>
                                             <div className='flex items-center text-white p-3'>
                                                 <span className='mr-2 text-base md:text-2xl'>Attack Type : </span>
-                                                <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full">
-                                                    <Image src={pokeNameColorWithIcon[type].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                </div>
+                                                <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={type} />
                                                 <span className='mx-3 text-base md:text-2xl'>{capitalizeFirstLetter(type)}</span>
                                             </div>
 
@@ -147,10 +145,8 @@ const Pokemon = async ({ params }) => {
                                                         {
                                                             key.double_damage_from.length > 0 ? key.double_damage_from.map((val, idx) => {
                                                                 return (
-                                                                    <li className='flex items-center text-white pl-10 text-sm'>
-                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
-                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                                        </div>
+                                                                    <li className='flex items-center text-white pl-10 text-sm' key={idx}>
+                                                                        <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{capitalizeFirstLetter(val.name)}</span>
                                                                     </li>
                                                                 )
@@ -169,10 +165,8 @@ const Pokemon = async ({ params }) => {
                                                         {
                                                             key.double_damage_to.length > 0 ? key.double_damage_to.map((val, idx) => {
                                                                 return (
-                                                                    <li className='flex items-center text-white pl-10 text-sm'>
-                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
-                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                                        </div>
+                                                                    <li className='flex items-center text-white pl-10 text-sm' key={idx}>
+                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -191,10 +185,8 @@ const Pokemon = async ({ params }) => {
                                                         {
                                                             key.half_damage_from.length > 0 ? key.half_damage_from.map((val, idx) => {
                                                                 return (
-                                                                    <li className='flex items-center text-white pl-10 text-sm'>
-                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
-                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                                        </div>
+                                                                    <li className='flex items-center text-white pl-10 text-sm' key={idx}>
+                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -213,10 +205,8 @@ const Pokemon = async ({ params }) => {
                                                         {
                                                             key.half_damage_to.length > 0 ? key.half_damage_to.map((val, idx) => {
                                                                 return (
-                                                                    <li className='flex items-center text-white pl-10 text-sm'>
-                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
-                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                                        </div>
+                                                                    <li className='flex items-center text-white pl-10 text-sm' key={idx}>
+                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -235,10 +225,8 @@ const Pokemon = async ({ params }) => {
                                                         {
                                                             key.no_damage_from.length > 0 ? key.no_damage_from.map((val, idx) => {
                                                                 return (
-                                                                    <li className='flex items-center text-white pl-10 text-sm'>
-                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
-                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                                        </div>
+                                                                    <li className='flex items-center text-white pl-10 text-sm' key={idx}>
+                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )
@@ -257,10 +245,8 @@ const Pokemon = async ({ params }) => {
                                                         {
                                                             key.no_damage_to.length > 0 ? key.no_damage_to.map((val, idx) => {
                                                                 return (
-                                                                    <li className='flex items-center text-white pl-10 text-sm'>
-                                                                        <div className="w-6 h-6 sm:w-7 sm:h-7 relative border-2 border-black rounded-full my-1" key={idx}>
-                                                                            <Image src={pokeNameColorWithIcon[val.name].icon} fill sizes='auto' alt='Pokemon Type Logo' />
-                                                                        </div>
+                                                                    <li className='flex items-center text-white pl-10 text-sm' key={idx}>
+                                                                       <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.name} />
                                                                         <span className='mx-3 text-base'>{val ? capitalizeFirstLetter(val.name) : 'None'}</span>
                                                                     </li>
                                                                 )

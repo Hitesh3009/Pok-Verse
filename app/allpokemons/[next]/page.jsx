@@ -68,25 +68,25 @@ const Allpokemons = async ({ params, searchParams }) => {
                         <div className="flex justify-center flex-wrap font-mono">
                             {
                                 filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
-                                    return (<>
-                                        {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */}
-                                        <div key={pokeVal.name}>
+                                    return (
+                                        {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */ }
+                                        (< div key = { pokeVal.name } >
                                             <Link href={`/pokedex/${pokeVal.name}`}>
-                                                <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} evolutionBtnActive={false}/>
+                                                <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} evolutionBtnActive={false} />
                                             </Link>
-                                        </div>
-                                    </>)
+                                        </div>)
+                        )
                                 }) : (
-                                    <div>
-                                        <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
-                                    </div>
-                                )
-                            }
+                        <div>
+                            <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
                         </div>
-                        <Pagecontrols />
-                    </>)
+                        )
+                            }
+                    </div>
+                <Pagecontrols />
+            </>)
                 }
-            </Suspense>
+        </Suspense >
 
         </>
     )
