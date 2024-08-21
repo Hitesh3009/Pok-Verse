@@ -122,8 +122,8 @@ const Pokemon = async ({ params }) => {
                 </div>
 
 
-                <div className="flex justify-center mb-7 animate-fade font-mono">
-                    <div className="bg-violet-700 md:p-10">
+                <div className="flex justify-center animate-fade">
+                    <div className="bg-gray-800 md:p-10 w-full">
                         <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider mt-4 md:mt-0'>Moves Effectiveness</h1>
                         <div className='p-4'>
                             {

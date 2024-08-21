@@ -69,7 +69,6 @@ const Allpokemons = async ({ params, searchParams }) => {
                             {
                                 filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
                                     return (
-                                        {/* bg-gradient-to-br from-teal-400 via-lime-300 to-yellow-500 */ }
                                         (< div key = { pokeVal.name } >
                                             <Link href={`/pokedex/${pokeVal.name}`}>
                                                 <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} evolutionBtnActive={false} />

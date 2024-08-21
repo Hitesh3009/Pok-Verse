@@ -16,7 +16,7 @@ const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon ,evolutio
                 {
                     pokeVal.types.map((val,index) => {
                         return (
-                            <div className="flex items-center px-2 py-1 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
+                            <div className="flex items-center px-2 py-0.5 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
                                 <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.type.name}/>
                                 <span className={`mx-1.5 text-white`} key={val.slot} >{capitalizeFirstLetter(val.type.name)}</span>
                             </div>
