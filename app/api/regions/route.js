@@ -37,8 +37,8 @@ export async function GET() {
                     }
 
                     //assignes the name for pokemon and the image object 
-                    pokemon_with_images['name']=pokemonName;
-                    pokemon_with_images['images']=pokemonImgObj;
+                    pokemon_with_images['name'] = pokemonName;
+                    pokemon_with_images['images'] = pokemonImgObj;
                     customEntries.push(pokemon_with_images); // all objects are stored in this array
                 }));
             }));
@@ -49,8 +49,27 @@ export async function GET() {
             new Map(customEntries.map(item => [item.name, item])).values()
         );
 
+
+        let chunkedDataArr = [];
+        let dataWithPageNo = {};
+        let pageNo = 1;
+
+        for (let i = 0; i < uniquePokemonArr.length; i++) {
+            const elememt = uniquePokemonArr[i];
+            chunkedDataArr.push(elememt);
+            if (chunkedDataArr.length === 20 || i === uniquePokemonArr.length - 1) {
+                const chunkedDataObj = {
+                    nextPgNo: pageNo + 1,
+                    data: chunkedDataArr
+                }
+                dataWithPageNo[pageNo] = chunkedDataObj;
+                chunkedDataArr = [];
+                pageNo++;
+            }
+        }
+
         // gives the response as json 
-        return new Response(JSON.stringify(uniquePokemonArr), {
+        return new Response(JSON.stringify(dataWithPageNo), {
             headers: { 'Content-Type': 'application/json' },
             status: 200
         });
