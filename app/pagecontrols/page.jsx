@@ -27,7 +27,7 @@ const Pagecontrols = () => {
   return (
     <div className='contentNavigation mb-5 space-x-36 flex justify-evenly'>
      <button disabled={pageNo===1} className={`${pageNo===1?'bg-gray-500':'bg-black'} text-white px-3 py-2 rounded-md text-center w-20`} onClick={handlePrevClick}>&larr;Prev</button>
-     <button disabled={pageNo>=108} className={`${pageNo>=108?'bg-gray-600':'bg-black'} text-white px-3 py-2 rounded-md text-center w-20`} onClick={handleNextClick}>Next&rarr;</button>
+     <button disabled={pageNo>108} className={`${pageNo>108?'bg-gray-600':'bg-black'} text-white px-3 py-2 rounded-md text-center w-20`} onClick={handleNextClick}>Next&rarr;</button>
     </div>
   )
 }

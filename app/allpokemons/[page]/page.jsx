@@ -46,7 +46,7 @@ const pokeNameColorWithIcon = {
 
 const getOffsetFromPageNo=(pagenumber)=>{
     const offsetForPageNo={};
-    for (let i=0;i<108;i++){
+    for (let i=0;i<=108;i++){
       offsetForPageNo[i+1]=i*12;
     }    
     return offsetForPageNo[pagenumber];
@@ -72,7 +72,7 @@ const Allpokemons = async ({ params, searchParams }) => {
             </div>
             }>
                 {
-                    (!Number.isInteger(offset) || offset < 0 || offset > 1296) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
+                    (!Number.isInteger(page) || page < 0 || page > 109) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
                         <div className="flex justify-center flex-wrap font-mono">
                             {
                                 filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
