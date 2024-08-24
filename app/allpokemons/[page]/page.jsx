@@ -44,9 +44,17 @@ const pokeNameColorWithIcon = {
     'water': { 'color': '#539ae2', 'icon': '/water_type.png' },
 };
 
+const getOffsetFromPageNo=(pagenumber)=>{
+    const offsetForPageNo={};
+    for (let i=0;i<108;i++){
+      offsetForPageNo[i+1]=i*12;
+    }    
+    return offsetForPageNo[pagenumber];
+  }
 
 const Allpokemons = async ({ params, searchParams }) => {
-    const offset = Number(params.next, 10);
+    const page = Number(params.page, 10);
+    const offset=getOffsetFromPageNo(page);
     const pokeArr = await getAllPokemonData(offset);
     const userInp = searchParams.input || '';
     const filterPokemon = pokeArr.filter((currPokemon) => {

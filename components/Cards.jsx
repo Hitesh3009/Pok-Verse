@@ -3,10 +3,10 @@ import Image from 'next/image';
 import PokemonType from './PokemonType';
 const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon ,individualPokecard}) => {
     return (
-        <div className={`"card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-auto ${individualPokecard===true?'h-auto':'sm:h-[30.5rem]'} m-[1.4rem] px-5 pt-2 space-y-4 ${individualPokecard===true?'md:animate-slideToLeft animate-slideToBottom':'hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105'} scrollbar-hide`}>
+        <div className={`"card border-2 border-black w-[17.5rem] md:min-w-[18.5rem] h-auto ${individualPokecard===true?'h-auto':'sm:h-[30.5rem] overflow-y-scroll'} m-[1.4rem] px-5 pt-2 space-y-4 ${individualPokecard===true?'md:animate-slideToLeft animate-slideToBottom':'hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105'} scrollbar-hide`}>
             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                 <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
-                    <Image src={pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true} />
+                    <Image src={pokeVal.sprites.other.dream_world.front_default!==null ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default} alt="Pokemon Image" fill sizes='auto' priority={true} />
                 </div>
             </div>
             <div className="pokeName flex justify-center mt-3">
