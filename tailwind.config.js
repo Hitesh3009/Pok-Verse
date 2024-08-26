@@ -48,8 +48,7 @@ module.exports = {
         slideToBottom:'slideToBottom 0.8s linear 1',
         slideToRight:'slideToRight 5s ease',
         fade: 'fadeIn 6s ease',
-      }
-
+      },
     },
   },
   plugins: [
