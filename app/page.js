@@ -3,9 +3,8 @@ export default function Home() {
   return (
     <>
       <main className="">
-        <div className="">
+        {/* Displays the landing page to the user */}
             <LandingPage/>
-        </div>
       </main>
     </>
   );

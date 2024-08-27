@@ -2,7 +2,10 @@ import React from 'react';
 
 const About = () => {
   return (
+    // Describes what all things are present in this application and also mentions the way to connect with me.
     <div className='flex flex-col items-center p-16 bg-gray-500 text-white'>
+
+      {/* Short description */}
       <article className='my-4'>
         <h1 className='text-xl md:text-2xl font-bold underline tracking-wide mb-1.5'>About Us</h1>
         <p className='text-base md:text-lg text-justify'>
@@ -10,6 +13,7 @@ const About = () => {
         </p>
       </article>
 
+      {/* Services offered */}
       <article className='my-4'>
         <h1 className='text-xl md:text-2xl font-bold underline tracking-wide mb-1.5'>What we offer</h1>
         <ul className='text-base md:text-lg'>
@@ -27,6 +31,7 @@ const About = () => {
         </ul>
       </article>
 
+      {/* Contact */}
       <article className='my-4'>
         <h1 className='text-xl md:text-2xl font-bold underline tracking-wide mb-1.5'>Connect Us</h1>
         <p className='text-base md:text-lg text-justify'>
@@ -37,4 +42,4 @@ const About = () => {
   )
 }
 
-export default About
+export default About;

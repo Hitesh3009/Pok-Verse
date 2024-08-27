@@ -1,12 +1,13 @@
-import React, { Suspense } from 'react'
-import Pagecontrols from '../../pagecontrols/page';
+import React, { Suspense } from 'react';
+import Pagecontrols from '../../pagecontrols/page'; // imports the previous and next buttons
 import Link from 'next/link';
-import UserInput from '@/app/userinput/page';
-import Cards from '@/components/Cards';
+import UserInput from '@/app/userinput/page'; // imports the input field for the user input
+import Cards from '@/components/Cards'; // imports the cards for displaying the pokemon cards
 
 let data;
 const Loading = React.lazy(() => import('./loading'));
 
+// gets the pokemon data from the custom api based on the offset value 
 const getAllPokemonData = async (offset) => {
     try {
         const res = await fetch(`http://localhost:3000/api/getallpokemons?offset=${offset}`);
@@ -14,15 +15,18 @@ const getAllPokemonData = async (offset) => {
         return data;
     }
     catch (e) {
+        console.error(e); //logs the error for debugging
         let error_msg = 'Some error occured while fetching the data for pokemons.';
-        return { data: null, message: error_msg };
+        return { data: null, message: error_msg }; // returns null data if any error occured and the error message
     }
 }
 
+// capitalizes the first letter
 const capitalizeFirstLetter = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
 }
 
+// object which stores the color for each pokemon type and its respective type logos
 const pokeNameColorWithIcon = {
     'bug': { 'color': '#94bc4a', 'icon': '/bug_type.png' },
     'dark': { 'color': '#736c75', 'icon': '/dark_type.png' },
@@ -44,53 +48,70 @@ const pokeNameColorWithIcon = {
     'water': { 'color': '#539ae2', 'icon': '/water_type.png' },
 };
 
+// this function returns the offset value based on the page number retrieved from the url path
 const getOffsetFromPageNo=(pagenumber)=>{
     const offsetForPageNo={};
     for (let i=0;i<=108;i++){
       offsetForPageNo[i+1]=i*12;
-    }    
+    }
     return offsetForPageNo[pagenumber];
   }
 
+// this is the component used to display the entire pokemon data
 const Allpokemons = async ({ params, searchParams }) => {
-    const page = Number(params.page, 10);
-    const offset=getOffsetFromPageNo(page);
-    const pokeArr = await getAllPokemonData(offset);
-    const userInp = searchParams.input || '';
+    const page = Number(params.page, 10); // gets the page number from the url parameters
+    const offset=getOffsetFromPageNo(page); // gets the respective offset for the page number
+    const pokeArr = await getAllPokemonData(offset); // gets the pokemon data based on the provided offset
+    const userInp = searchParams.input || ''; // retrieves the user query from the query parameter of url
+
+    // returns the filtered array based on the user input for the pokemon search
     const filterPokemon = pokeArr.filter((currPokemon) => {
         return currPokemon.name.toLowerCase().includes(userInp.toLowerCase());
     });
+
     return (
         <>
+        {/* User input component to display the input field */}
             <UserInput />
+        
+        {/* Suspense is used to display the card loader until the data is fetched */}
             <Suspense fallback={<div className='flex justify-center flex-wrap'>
+                
+                {/* Returns an array of length 8 and iterates it to display 8 loader cards */}
                 {Array.from({ length: 8 }).map((_, index) => {
                     return (<div key={index} className="m-4">
                         <Loading />
-                    </div>)
+                    </div>);
                 })}
             </div>
             }>
                 {
+                    // handles the case where if any user navigates to page number which is not a number and a string or the page number is less than 0 or greater than the total page count, this will show 404 error page
                     (!Number.isInteger(page) || page < 0 || page > 109) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
                         <div className="flex justify-center flex-wrap font-mono">
                             {
+                                // checks whether the array is empty, if not then displays the available pokemon cards
                                 filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
                                     return (
                                         (< div key = { pokeVal.name } >
+                                            {/* Link is used to redirect to individual pokemon data */}
                                             <Link href={`/pokedex/${pokeVal.name}`}>
+
+                                            {/* card to display pokemon basic details */}
                                                 <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} individualPokecard={false} />
                                             </Link>
                                         </div>)
                         )
                                 }) : (
                         <div>
+                            {/* Displays a message in case if the pokemon is not available on the current page */}
                             <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
                         </div>
                         )
                             }
                     </div>
-                <Pagecontrols />
+                    {/* Displays the previous and next button for page navigation */}
+                <Pagecontrols /> 
             </>)
                 }
         </Suspense >
@@ -99,4 +120,4 @@ const Allpokemons = async ({ params, searchParams }) => {
     )
 }
 
-export default Allpokemons
+export default Allpokemons;

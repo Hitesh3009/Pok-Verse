@@ -1,4 +1,3 @@
-const { transform } = require('next/dist/build/swc');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -10,6 +9,7 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
+        // animation for the card sliding towards left
         slideToLeft: {
           '0%': {
             transform: 'translateX(400%)'
@@ -18,6 +18,8 @@ module.exports = {
             transform: 'translateX(0%)'
           }
         },
+
+        // animation for the table sliding towards right with fading effect
         slideToRight: {
           '0%': {
             transform: 'translateX(-20%)',
@@ -30,6 +32,8 @@ module.exports = {
             opacity:1
           }
         },
+
+        // animation for the card sliding towards bottom
         slideToBottom: {
           '0%': {
             transform: 'translateY(-100%)'
@@ -38,12 +42,16 @@ module.exports = {
             transform: 'translateY(0%)'
           }
         },
+
+        // fading effect for displaying the pokemon information
         fadeIn: {
           '0%': { backgroundColor: 'white',opacity:0 },
           '100%': { backgroundColor:'white',opacity:1 },
         },
       },
+
       animation:{
+        // gives the name to the animation to access them on the page with various transition effects
         slideToLeft:'slideToLeft 0.75s linear 1',
         slideToBottom:'slideToBottom 0.8s linear 1',
         slideToRight:'slideToRight 5s ease',
@@ -52,6 +60,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('tailwind-scrollbar-hide')
+    require('tailwind-scrollbar-hide')//hides the overflow scrollbar
   ],
 };
