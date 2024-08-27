@@ -5,6 +5,7 @@ import UserInput from '@/app/userinput/page'; // imports the input field for the
 import Cards from '@/components/Cards'; // imports the cards for displaying the pokemon cards
 
 let data;
+let totalRes;
 const Loading = React.lazy(() => import('./loading'));
 
 // gets the pokemon data from the custom api based on the offset value 
@@ -12,7 +13,8 @@ const getAllPokemonData = async (offset) => {
     try {
         const res = await fetch(`http://localhost:3000/api/getallpokemons?offset=${offset}`);
         data = await res.json();
-        return data;
+        totalRes=Number(data.totalCount); 
+        return data.detailedResponse;
     }
     catch (e) {
         console.error(e); //logs the error for debugging
@@ -51,7 +53,7 @@ const pokeNameColorWithIcon = {
 // this function returns the offset value based on the page number retrieved from the url path
 const getOffsetFromPageNo=(pagenumber)=>{
     const offsetForPageNo={};
-    for (let i=0;i<=108;i++){
+    for (let i=0;i<=Math.ceil(totalRes/12);i++){
       offsetForPageNo[i+1]=i*12;
     }
     return offsetForPageNo[pagenumber];
@@ -59,11 +61,10 @@ const getOffsetFromPageNo=(pagenumber)=>{
 
 // this is the component used to display the entire pokemon data
 const Allpokemons = async ({ params, searchParams }) => {
-    const page = Number(params.page, 10); // gets the page number from the url parameters
+    const page = Number(params.page); // gets the page number from the url parameters
     const offset=getOffsetFromPageNo(page); // gets the respective offset for the page number
     const pokeArr = await getAllPokemonData(offset); // gets the pokemon data based on the provided offset
     const userInp = searchParams.input || ''; // retrieves the user query from the query parameter of url
-
     // returns the filtered array based on the user input for the pokemon search
     const filterPokemon = pokeArr.filter((currPokemon) => {
         return currPokemon.name.toLowerCase().includes(userInp.toLowerCase());
@@ -72,7 +73,7 @@ const Allpokemons = async ({ params, searchParams }) => {
     return (
         <>
         {/* User input component to display the input field */}
-            <UserInput />
+            <UserInput totalRes={totalRes}/>
         
         {/* Suspense is used to display the card loader until the data is fetched */}
             <Suspense fallback={<div className='flex justify-center flex-wrap'>
@@ -87,8 +88,8 @@ const Allpokemons = async ({ params, searchParams }) => {
             }>
                 {
                     // handles the case where if any user navigates to page number which is not a number and a string or the page number is less than 0 or greater than the total page count, this will show 404 error page
-                    (!Number.isInteger(page) || page < 0 || page > 109) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
-                        <div className="flex justify-center flex-wrap font-mono">
+                    (!Number.isInteger(page) || page < 0 || page > Math.ceil(totalRes/12)) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
+                        <div className="flex justify-center flex-wrap">
                             {
                                 // checks whether the array is empty, if not then displays the available pokemon cards
                                 filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
@@ -111,7 +112,7 @@ const Allpokemons = async ({ params, searchParams }) => {
                             }
                     </div>
                     {/* Displays the previous and next button for page navigation */}
-                <Pagecontrols /> 
+                <Pagecontrols totalRes={totalRes}/> 
             </>)
                 }
         </Suspense >

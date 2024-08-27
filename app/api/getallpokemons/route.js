@@ -6,7 +6,8 @@ export async function GET(req) {
         // Pokemon external API
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&&limit=12`);
         const data = await res.json();
-
+        // console.log(data.count);
+        
         // processes/fetches the url/api that are present the data.results array
         const detailedPokemonData = data.results.map(async (currentPokemon) => {
             const url = await fetch(currentPokemon.url);
@@ -18,7 +19,7 @@ export async function GET(req) {
         const detailedResponse=await Promise.all(detailedPokemonData);
          
         // returns the response as json
-        return new Response(JSON.stringify(detailedResponse), {
+        return new Response(JSON.stringify({totalCount:data.count,detailedResponse}), {
             headers: { 'Content-Type': 'application/json',
                 'Cache-Control':'no-store, no-cache, must-revalidate, proxy-revalidate'
             },

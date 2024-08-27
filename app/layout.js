@@ -1,10 +1,10 @@
-import { Inter } from "next/font/google";
+import { Comfortaa } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const comfortaa = Comfortaa({ subsets: ["latin"] ,weight:'400'});
 
 // hydrates the meta tag in the browser html page
 export const metadata = {
@@ -29,7 +29,7 @@ export const viewport={
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
+      <body className={`${comfortaa.className} min-h-screen flex flex-col`}>
         {/* display the navbar inside the header tag */}
         <header>
           <Navbar />

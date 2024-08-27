@@ -1,7 +1,8 @@
 'use client';
 import React, { useState,useEffect } from 'react';
 import { useRouter, useParams} from 'next/navigation';
-const Pagecontrols = () => {
+const Pagecontrols = ({totalRes}) => {
+  const pageCount=Math.ceil(totalRes/12); // to get the total number of pages
   const router=useRouter(); // use to navigate to the specified endpoint
   const {page}=useParams(); // to get the current page number
   const initialPgNo = parseInt(page, 10) || 1; // passes the current page number as initial page number,if not available then passes 1
@@ -31,7 +32,7 @@ const Pagecontrols = () => {
      <button disabled={pageNo===1} className={`${pageNo===1?'bg-gray-500':'bg-black'} text-white px-3 py-2 rounded-md text-center w-20`} onClick={handlePrevClick}>&larr;Prev</button>
 
       {/* disables the next button if the page is the last page and changes its bg color as gray */}
-     <button disabled={pageNo>108} className={`${pageNo>108?'bg-gray-600':'bg-black'} text-white px-3 py-2 rounded-md text-center w-20`} onClick={handleNextClick}>Next&rarr;</button>
+     <button disabled={pageNo>pageCount-1} className={`${pageNo>pageCount-1?'bg-gray-600':'bg-black'} text-white px-3 py-2 rounded-md text-center w-20`} onClick={handleNextClick}>Next&rarr;</button>
     </div>
   )
 }

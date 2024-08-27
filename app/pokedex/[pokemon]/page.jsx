@@ -78,7 +78,7 @@ const Pokemon = async ({ params }) => {
         <>
             {/* Displays the card skeleton until the data is fetched */}
             <Suspense fallback={<Loading />}>
-                <div className='flex flex-col items-center lg:items-start lg:justify-start lg:flex-row sm:m-5 font-mono'>
+                <div className='flex flex-col items-center lg:items-start lg:justify-start lg:flex-row sm:m-5'>
                     {
                         // checks if there is any error while fetching data,if not then displays the pokemon card for that pokemon and other details
                         !pokeData.error ? (<div className='flex flex-col'>

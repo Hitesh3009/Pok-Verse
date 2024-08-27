@@ -37,21 +37,21 @@ const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon, individu
             </div>
 
             {/* Displays the basic stats of the pokemon */}
-            <div className="pokeStats flex justify-between flex-wrap px-2">
-                <span>Height: {pokeVal.height}</span>
-                <span>Weight: {pokeVal.weight}</span>
-                <span>Speed: {pokeVal.stats[5].base_stat}</span>
-                <span>Experience: {pokeVal.base_experience}</span>
-                <span>Attack: {pokeVal.stats[1].base_stat}</span>
-                <span>Defense: {pokeVal.stats[2].base_stat}</span>
+            <div className="pokeStats flex justify-between flex-wrap">
+                <span className='mx-1'>Height: {pokeVal.height}</span>
+                <span className='mx-1'>Weight: {pokeVal.weight}</span>
+                <span className='mx-1'>Speed: {pokeVal.stats[5].base_stat}</span>
+                <span className='mx-1'>Experience: {pokeVal.base_experience}</span>
+                <span className='mx-1'>Attack: {pokeVal.stats[1].base_stat}</span>
+                <span className='mx-1'>Defense: {pokeVal.stats[2].base_stat}</span>
             </div>
 
             {/* Displays the abilities of the pokemon */}
             <div>
-                <span>Abilities: </span>
+                <span className='text-xl'>Abilities: </span>
                 <ul className='flex flex-col mb-2 pl-2 flex-wrap-reverse'>
                     {
-                        pokeVal.abilities.map((currAbility, index) => <li className='list-disc' key={index}>{capitalizeFirstLetter(currAbility.ability.name)}</li>)
+                        pokeVal.abilities.map((currAbility, index) => <li className='list-disc text-base' key={index}>{capitalizeFirstLetter(currAbility.ability.name)}</li>)
                     }
                 </ul>
             </div>

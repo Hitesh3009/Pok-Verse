@@ -7,7 +7,7 @@ const Footer = () => {
             <div className='bg-black w-full pt-4'>
                 <h2 className='text-white text-2xl lg:text-3xl text-center tracking-widest'>Developed by</h2>
                 {/* developer name */}
-                <p className='text-xl lg:text-2xl text-white text-center font-bold font-mono mt-4 tracking-wider'>Hitesh Eknath Bhosale</p>
+                <p className='text-xl lg:text-2xl text-white text-center font-bold mt-4 tracking-wider'>Hitesh Eknath Bhosale</p>
                 <div className='flex flex-col items-center md:flex-row md:justify-around'>
                     <div className='details flex flex-col text-sm md:text-base mt-3 md:my-5'>
                         <div className='location text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
