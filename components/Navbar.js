@@ -15,9 +15,6 @@ const Navbar = () => {
                     <i className={`fa-solid fa-user-group fa-lg md:fa-xl mx-1 ${pathname !== '/about' && 'my-3'}`}></i>
                     <li className='text-base md:text-xl mx-1'>About</li>
                 </Link>
-                {/* <div> */}
-                    
-                {/* </div> */}
             </ul>
         </nav>
     )

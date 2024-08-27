@@ -13,7 +13,7 @@ const LandingPage = () => {
           <img src="/Ash with his Pokemon1.jpg" alt="Ash with his Pokemon" className='w-full lg:w-1/2' />
           <img src="/Ash with his Pokemon2.jpg" alt="Ash with Pikachu" className='w-full lg:w-1/2' />
         </div>
-        <button className='bg-black text-white px-3 py-2 rounded-md w-48 my-6' onClick={handlePageChange}>Let's See Pokemons</button>
+        <button className='bg-black text-white px-3 py-2 rounded-md w-48 my-6' onClick={handlePageChange}>Let's See Pokémons</button>
       </div>
     </>
   )
