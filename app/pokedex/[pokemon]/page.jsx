@@ -11,7 +11,7 @@ const capitalizeFirstLetter = (word) => {
 
 // gets the details for the pokemon based on the pokemon name
 const getPokeData = async (pokemon) => {
-    const res = await fetch(`http://localhost:3000/api/getpokemon?pokemon=${pokemon}`);
+    const res = await fetch(`http://localhost:3000/api/pokemon?pokemon=${pokemon}`);
     const data = await res.json();
     return data;
 }

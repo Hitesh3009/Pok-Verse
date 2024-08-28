@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 const LandingPage = () => {
   const router = useRouter(); // use for navigation
   const handlePageChange = () => {
-    router.replace('/allpokemons/1'); // redirects to first page
+    router.replace('/pokemons/1'); // redirects to first page
   }
   return (
     <>

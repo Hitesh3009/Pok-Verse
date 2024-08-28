@@ -16,7 +16,7 @@ export const metadata = {
 
   // favicons to be displayed
   icons:{
-    icon:'android-chrome-512x512.png',
+    icon:'android-chrome-192x192.png',
     apple:'apple-touch-icon.png',
   }
 };
