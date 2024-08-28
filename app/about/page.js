@@ -3,7 +3,7 @@ import React from 'react';
 const About = () => {
   return (
     // Describes what all things are present in this application and also mentions the way to connect with me.
-    <div className='flex flex-col items-center p-16 bg-gray-500 text-white'>
+    <div className='flex flex-col items-center p-16 text-white'>
 
       {/* Short description */}
       <article className='my-4'>
