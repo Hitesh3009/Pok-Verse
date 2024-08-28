@@ -11,7 +11,7 @@ const Loading = React.lazy(() => import('./loading'));
 // gets the pokemon data from the custom api based on the offset value 
 const getAllPokemonData = async (offset) => {
     try {
-        const res = await fetch(`http://localhost:3000/api/pokemons?offset=${offset}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pokemons?offset=${offset}`);
         data = await res.json();
         totalRes = Number(data.totalCount);
         return Array.isArray(data.detailedResponse) ? data.detailedResponse : [];

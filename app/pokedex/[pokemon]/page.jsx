@@ -12,14 +12,14 @@ const capitalizeFirstLetter = (word) => {
 
 // gets the details for the pokemon based on the pokemon name
 const getPokeData = async (pokemon) => {
-    const res = await fetch(`http://localhost:3000/api/pokemon?pokemon=${pokemon}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pokemon?pokemon=${pokemon}`);
     const data = await res.json();
     return data;
 }
 
 // gets the details for the moves the pokemon uses 
 const getPokeMoves = async (pokemon) => {
-    const res = await fetch(`http://localhost:3000/api/moves?pokemon=${pokemon}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/moves?pokemon=${pokemon}`);
     const data = await res.json();
     return data;
 }
@@ -30,7 +30,7 @@ const getEffectiveMove = async (pokeTypeArr) => {
 
     // since the pokemon sometimes don't have only one single type it have multiple types so we try to resolve promises for all the type that pokemon possesses
     await Promise.all(pokeTypeArr.map(async (type) => {
-        const res = await fetch(`http://localhost:3000/api/moveeffectiveness?type=${type}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/moveeffectiveness?type=${type}`);
         const data = await res.json();
         EffectivenessObj[type] = data; // stores the data for respective pokemon type eg:for bulbasaur,grass and poison.
     }));

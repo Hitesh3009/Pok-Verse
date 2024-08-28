@@ -3,7 +3,7 @@ export async function GET(req) {
     const pokemon = req.nextUrl.searchParams.get('pokemon');
     try {
         // fetches the custom api for the pokemon details like the moves it performs
-        const res = await fetch(`http://localhost:3000/api/pokemon?pokemon=${pokemon}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pokemon?pokemon=${pokemon}`);
         const data = await res.json();
         
         // stores the moves array of the specified pokemon
