@@ -15,11 +15,6 @@ const Footer = () => {
                             <i className="fa-solid fa-location-dot text-xl mx-2"></i>
                             <span className='mx-2 tracking-widest'>Mumbai, India</span>
                         </div>
-                        <div className='phone text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
-                            {/* Contact number */}
-                            <i className="fa-solid fa-phone text-xl mx-2"></i>
-                            <span className='mx-2 tracking-widest'>+91 8286043188</span>
-                        </div>
                         <div className='email text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
                             {/* Mail address */}
                             <i className="fa-solid fa-envelope text-xl mx-2"></i>
