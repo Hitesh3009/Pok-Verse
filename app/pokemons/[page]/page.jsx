@@ -13,8 +13,8 @@ const getAllPokemonData = async (offset) => {
     try {
         const res = await fetch(`http://localhost:3000/api/pokemons?offset=${offset}`);
         data = await res.json();
-        totalRes=Number(data.totalCount); 
-        return data.detailedResponse;
+        totalRes = Number(data.totalCount);
+        return Array.isArray(data.detailedResponse) ? data.detailedResponse : [];
     }
     catch (e) {
         console.error(e); //logs the error for debugging
@@ -56,22 +56,26 @@ const pokeNameColorWithIcon = {
 // this is the component used to display the entire pokemon data
 const Allpokemons = async ({ params, searchParams }) => {
     const page = Number(params.page); // gets the page number from the url parameters
-    const offset=(page-1)*12; // gets the respective offset for the page number
+    const offset = (page - 1) * 12; // gets the respective offset for the page number
     const pokeArr = await getAllPokemonData(offset); // gets the pokemon data based on the provided offset
     const userInp = searchParams.input || ''; // retrieves the user query from the query parameter of url
+
     // returns the filtered array based on the user input for the pokemon search
-    const filterPokemon = pokeArr.filter((currPokemon) => {
-        return currPokemon.name.toLowerCase().includes(userInp.toLowerCase());
-    });
+    const filterPokemon = Array.isArray(pokeArr)
+        ? pokeArr.filter((currPokemon) => {
+            return currPokemon.name.toLowerCase().includes(userInp.toLowerCase());
+        })
+        : [];
+
 
     return (
         <>
-        {/* User input component to display the input field */}
-            <UserInput totalRes={totalRes}/>
-        
-        {/* Suspense is used to display the card loader until the data is fetched */}
+            {/* User input component to display the input field */}
+            <UserInput totalRes={totalRes} />
+
+            {/* Suspense is used to display the card loader until the data is fetched */}
             <Suspense fallback={<div className='flex justify-center flex-wrap'>
-                
+
                 {/* Returns an array of length 8 and iterates it to display 8 loader cards */}
                 {Array.from({ length: 8 }).map((_, index) => {
                     return (<div key={index} className="m-4">
@@ -82,34 +86,34 @@ const Allpokemons = async ({ params, searchParams }) => {
             }>
                 {
                     // handles the case where if any user navigates to page number which is not a number and a string or the page number is less than 0 or greater than the total page count, this will show 404 error page
-                    (!Number.isInteger(page) || page < 0 || page > Math.ceil(totalRes/12)) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto text-white'>404 Page Not Found</p></div> : (<>
+                    (!Number.isInteger(page) || page < 0 || page > Math.ceil(totalRes / 12)) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto text-white'>404 Page Not Found</p></div> : (<>
                         <div className="flex justify-center flex-wrap">
                             {
                                 // checks whether the array is empty, if not then displays the available pokemon cards
                                 filterPokemon.length > 0 ? filterPokemon.map((pokeVal) => {
                                     return (
-                                        (< div key = { pokeVal.name } >
+                                        (< div key={pokeVal.name} >
                                             {/* Link is used to redirect to individual pokemon data */}
                                             <Link href={`/pokedex/${pokeVal.name}`}>
 
-                                            {/* card to display pokemon basic details */}
+                                                {/* card to display pokemon basic details */}
                                                 <Cards pokeVal={pokeVal} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} individualPokecard={false} />
                                             </Link>
                                         </div>)
-                        )
+                                    )
                                 }) : (
-                        <div>
-                            {/* Displays a message in case if the pokemon is not available on the current page */}
-                            <p className='text-xl md:text-2xl lg:text-3xl leading-9 text-white'>Pokemon <span className='text-yellow-200 bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
-                        </div>
-                        )
+                                    <div>
+                                        {/* Displays a message in case if the pokemon is not available on the current page */}
+                                        <p className='text-xl md:text-2xl lg:text-3xl leading-9 text-white'>Pokemon <span className='text-yellow-200 bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
+                                    </div>
+                                )
                             }
-                    </div>
-                    {/* Displays the previous and next button for page navigation */}
-                <PageControls totalRes={totalRes}/> 
-            </>)
+                        </div>
+                        {/* Displays the previous and next button for page navigation */}
+                        <PageControls totalRes={totalRes} />
+                    </>)
                 }
-        </Suspense >
+            </Suspense >
 
         </>
     )
