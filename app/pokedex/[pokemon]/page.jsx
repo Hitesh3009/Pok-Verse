@@ -83,7 +83,7 @@ const Pokemon = async ({ params }) => {
                         // checks if there is any error while fetching data,if not then displays the pokemon card for that pokemon and other details
                         !pokeData.error ? (<div className='flex flex-col'>
                             <Cards pokeVal={pokeData} capitalizeFirstLetter={capitalizeFirstLetter} pokeNameColorWithIcon={pokeNameColorWithIcon} individualPokecard={true} />
-                            <p className='text-center font-semibold animate-fade'>Play Pokemon Cry</p>
+                            <p className='text-center font-semibold animate-fade text-white'>Play Pokemon Cry</p>
                             <div className='flex justify-center animate-fade'>
                                 {/* Displays the audio to hear the pokemon voice */}
                                 <audio controls>
@@ -102,13 +102,13 @@ const Pokemon = async ({ params }) => {
 
                     <div className="px-5 lg:px-0 my-5 lg:ml-10 flex flex-col flex-wrap w-full overflow-x-hidden">
                         {/* Displays the pokemon moves with the effect it causes in the table format and also displays the animation */}
-                        <table className='border-2 border-black border-collapse animate-fade lg:animate-slideToRight '>
+                        <table className='border-[2.6px] border-yellow-400 border-collapse animate-fade lg:animate-slideToRight text-white'>
                             {/* Table heading */}
                             <thead>
-                                <tr>
-                                    <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse' >Move Type</th>
-                                    <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse' >Move Name</th>
-                                    <th className='border-2 border-black p-3 text-lg md:text-xl border-collapse'>Effect</th>
+                                <tr className='border-[2.6px] border-yellow-400'>
+                                    <th className='border-[2.6px] border-yellow-400 p-3 text-lg md:text-xl border-collapse' >Move Type</th>
+                                    <th className='border-[2.6px] border-yellow-400 p-3 text-lg md:text-xl border-collapse' >Move Name</th>
+                                    <th className='border-[2.6px] border-yellow-400 p-3 text-lg md:text-xl border-collapse'>Effect</th>
                                 </tr>
                             </thead>
 
@@ -119,13 +119,13 @@ const Pokemon = async ({ params }) => {
                                     // checks is data is available,if it is then displays the data in table form
                                     movesArr.length > 0 ? movesArr.map((move, index) => {
                                         return (
-                                            <tr key={index} className='border-2 border-black'>
-                                                <td className='border-2 border-black p-3' >
+                                            <tr key={index} className='border-[2.6px] border-yellow-400'>
+                                                <td className='border-[2.6px] border-yellow-400 p-3' >
                                                     <div className='flex items-center justify-center'>
-                                                        <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-6 h-6 md:w-7 md:h-7 text-xs border-2 border-black rounded-full' />
+                                                        <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-6 h-6 md:w-7 md:h-7 text-xs  rounded-full' />
                                                     </div>
                                                 </td>
-                                                <td className='border-2 border-black w-36'>
+                                                <td className='border-[2.6px] border-yellow-400 w-36'>
                                                     <div className='flex items-center justify-center'>
                                                         <p className=''>{move && capitalizeFirstLetter(move.move_name)}</p>
                                                     </div>
@@ -151,8 +151,8 @@ const Pokemon = async ({ params }) => {
                 </div>
 
                 {/* displays all the information regarding the pokemon strength,weakness,etc against other pokemon type*/}
-                <div className="flex justify-center animate-fade">
-                    <div className="bg-gray-800 md:p-10 w-full">
+                <div className="flex justify-center">
+                    <div className="animate-fade md:p-10 w-full ">
                         <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider mt-4 md:mt-0'>Moves Effectiveness</h1>
                         <div className='p-4'>
                             {
