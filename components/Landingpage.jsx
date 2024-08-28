@@ -16,7 +16,7 @@ const LandingPage = () => {
         </div>
 
         {/* Button to navigate to the first page */}
-        <button className='bg-black text-white px-3 py-2 rounded-md w-48 my-6' onClick={handlePageChange}>Let's See Pokémons</button>
+        <button className='bg-black text-white px-3 py-2 rounded-md w-48 my-6 tracking-wide' onClick={handlePageChange}>Let&apos;s See Pokémons</button>
       </div>
     </>
   )

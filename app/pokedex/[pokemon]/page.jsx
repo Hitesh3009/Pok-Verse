@@ -3,6 +3,7 @@ import '../../globals.css';
 import Loading from './loading';
 import Cards from '@/components/Cards';
 import PokemonType from '@/components/PokemonType';
+import Image from 'next/image';
 
 // capitalize the first letter
 const capitalizeFirstLetter = (word) => {
@@ -120,9 +121,9 @@ const Pokemon = async ({ params }) => {
                                     movesArr.length > 0 ? movesArr.map((move, index) => {
                                         return (
                                             <tr key={index} className='border-[2.6px] border-yellow-400'>
-                                                <td className='border-[2.6px] border-yellow-400 p-3' >
-                                                    <div className='flex items-center justify-center'>
-                                                        <img src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='w-6 h-6 md:w-7 md:h-7 text-xs  rounded-full' />
+                                                <td className='p-3 flex justify-center' >
+                                                    <div className='w-6 h-6 md:w-7 md:h-7 relative'>
+                                                        <Image src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='text-xs rounded-full' fill sizes='auto'/>
                                                     </div>
                                                 </td>
                                                 <td className='border-[2.6px] border-yellow-400 w-36'>
