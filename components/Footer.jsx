@@ -37,14 +37,14 @@ const Footer = () => {
                             {/* Instagram id */}
                             <Link href={`${instagramUrl}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
-                                    <Image src={`/instagramlogo.svg`} fill sizes='auto' alt='Instagram Logo' aria-label='Instagram' />
+                                    <Image src={`/instagramLogo.svg`} fill sizes='auto' alt='Instagram Logo' aria-label='Instagram' />
                                 </div>
                             </Link>
 
                             {/* LinkedIn id */}
                             <Link href={`${linkedInUrl}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
-                                    <Image src={`/linkedinlogo.svg`} fill sizes='auto' alt='LinkedIn Logo' aria-label='LinkedIn' />
+                                    <Image src={`/linkedinLogo.svg`} fill sizes='auto' alt='LinkedIn Logo' aria-label='LinkedIn' />
                                 </div>
                             </Link>
 
