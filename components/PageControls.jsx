@@ -17,13 +17,13 @@ const PageControls = ({totalRes}) => {
   const handlePrevClick = () => {
     const newPageNo= Math.max(1,pageNo - 1); // navigates to the previous page and handles the negative page number
     setPageNo(newPageNo); // sets the new page number
-    router.replace(`/pokemons/${parseInt(newPageNo,10)}`); // replaces the current url with the new one consisting the updated page number
+    router.push(`/pokemons/${parseInt(newPageNo,10)}`); // replaces the current url with the new one consisting the updated page number
   };
 
   const handleNextClick = () => {
     const newPageNo=pageNo+1; // navigates to the next page
     setPageNo(newPageNo); // sets the new page number
-    router.replace(`/pokemons/${parseInt(newPageNo,10)}`); // replaces the current url with the new one consisting the updated page number
+    router.push(`/pokemons/${parseInt(newPageNo,10)}`); // replaces the current url with the new one consisting the updated page number
   };
 
   return (

@@ -16,7 +16,7 @@ const UserInput = ({ totalRes }) => {
         // gets the entered value by the user
         const newValue = e.target.value;
         setuserInp(newValue); // sets the new value
-        newValue.trim() === '' ? router.replace(`/pokemons/${page}`) : router.replace(`/pokemons/${page}?input=${newValue}`); // if the user input is empty it replaces it by the current page number and if any user input text is present then displays the input text as query in url
+        newValue.trim() === '' ? router.push(`/pokemons/${page}`) : router.push(`/pokemons/${page}?input=${newValue}`); // if the user input is empty it replaces it by the current page number and if any user input text is present then displays the input text as query in url
     }
 
     return (
