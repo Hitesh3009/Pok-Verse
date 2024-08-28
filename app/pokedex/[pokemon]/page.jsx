@@ -66,7 +66,7 @@ const Pokemon = async ({ params }) => {
     let pokeTypeArr = []; // stores the pokemon type
 
     // iterates through the pokemon data from api and stores the types in the pokemon type array
-    for (let i = 0; i < pokeData.types.length; i++) {
+    for (let i = 0; (pokeData.types && i < pokeData.types.length); i++) {
         const type = pokeData.types[i].type.name;
         pokeTypeArr.push(type);
     }
@@ -95,14 +95,14 @@ const Pokemon = async ({ params }) => {
                         ) :
                             // diplays the error message if any error occurs while fetching the data
                             <div className="flex flex-col items-center min-h-screen">
-                                <p className='text-3xl font-bold my-auto'>{pokeData.error}</p>
+                                <p className='text-2xl md:text-3xl font-bold my-auto text-white text-center'>{pokeData.error}</p>
                             </div>
 
                     }
 
                     <div className="px-5 lg:px-0 my-5 lg:ml-10 flex flex-col flex-wrap w-full overflow-x-hidden">
                         {/* Displays the pokemon moves with the effect it causes in the table format and also displays the animation */}
-                        <table className='border-[2.6px] border-yellow-400 border-collapse animate-fade lg:animate-slideToRight text-white'>
+                        <table className={`border-[2.6px] border-yellow-400 border-collapse animate-fade lg:animate-slideToRight text-white`}>
                             {/* Table heading */}
                             <thead>
                                 <tr className='border-[2.6px] border-yellow-400'>
@@ -151,12 +151,12 @@ const Pokemon = async ({ params }) => {
                 </div>
 
                 {/* displays all the information regarding the pokemon strength,weakness,etc against other pokemon type*/}
-                <div className="flex justify-center">
+                <div className={"flex justify-center"}>
                     <div className="animate-fade md:p-10 w-full ">
                         <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider mt-4 md:mt-0'>Moves Effectiveness</h1>
                         <div className='p-4'>
                             {
-                                pokeTypeArr.map((type, index) => {
+                                pokeTypeArr&&pokeTypeArr.map((type, index) => {
                                     const key = effectiveMove[type]; // type of the pokemon eg:grass and poison
                                     return (
                                         <div key={index}>
