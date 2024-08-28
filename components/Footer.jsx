@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 const Footer = () => {
-    const instagramUrl=process.env.NEXT_PUBLIC_INSTAGRAM_URL;
-    const linkedInUrl=process.env.NEXT_PUBLIC_LINKEDIN_URL;
-    const gitHubUrl=process.env.NEXT_PUBLIC_GITHUB_URL;
+    const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
+    const linkedInUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL;
+    const gitHubUrl = process.env.NEXT_PUBLIC_GITHUB_URL;
     return (
         <>
             {/* footer to display the developer name and other details */}
@@ -15,26 +16,44 @@ const Footer = () => {
                     <div className='details flex flex-col text-sm md:text-base mt-3 md:my-5'>
                         <div className='location text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
                             {/* Location */}
-                            <i className="fa-solid fa-location-dot text-xl mx-2"></i>
+                            <div className='w-6 h-6 md:w-7 md:h-7 relative'>
+                                <Image src={`/location.svg`} fill sizes='auto' alt='Location Logo' aria-label='Location' />
+                            </div>
                             <span className='mx-2 tracking-widest'>Mumbai, India</span>
                         </div>
                         <div className='email text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
                             {/* Mail address */}
-                            <i className="fa-solid fa-envelope text-xl mx-2"></i>
-                            <Link href='mailto: hiteshbhosle37906@gmail.com' className='hover:underline'><span className='mx-2 tracking-widest'>hiteshbhosle37906@gmail.com</span></Link>
+                            <Link href='mailto: hiteshbhosle37906@gmail.com' className='hover:underline flex items-center'>
+                                <div className='w-6 h-6 md:w-7 md:h-7 relative'>
+                                    <Image src={`/mail.svg`} fill sizes='auto' alt='Email Logo' aria-label='Email' />
+                                </div>
+                                <span className='mx-2 tracking-widest'>hiteshbhosle37906@gmail.com</span>
+                            </Link>
                         </div>
                     </div>
                     <div className='socialMedia flex flex-col text-sm md:text-base mt-3 md:my-5'>
                         <h2 className='text-xl lg:text-2xl text-white text-center px-2'>Connect on Social Media Platforms</h2>
                         <div className='instagram text-white flex justify-center items-center my-4'>
                             {/* Instagram id */}
-                            <Link href={`${instagramUrl}`}><i className="fa-brands fa-instagram text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href={`${instagramUrl}`} className='mx-2'>
+                                <div className="w-8 h-8 md:w-9 md:h-9 relative">
+                                    <Image src={`/instagramlogo.svg`} fill sizes='auto' alt='Instagram Logo' aria-label='Instagram' />
+                                </div>
+                            </Link>
 
                             {/* LinkedIn id */}
-                            <Link href={`${linkedInUrl}`}><i className="fa-brands fa-linkedin text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href={`${linkedInUrl}`} className='mx-2'>
+                                <div className="w-8 h-8 md:w-9 md:h-9 relative">
+                                    <Image src={`/linkedinlogo.svg`} fill sizes='auto' alt='LinkedIn Logo' aria-label='LinkedIn' />
+                                </div>
+                            </Link>
 
                             {/* GitHub id */}
-                            <Link href={`${gitHubUrl}`}><i className="fa-brands fa-github text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href={`${gitHubUrl}`} className='mx-2'>
+                                <div className="w-8 h-8 md:w-9 md:h-9 relative">
+                                    <Image src={`/githubLogo.svg`} fill sizes='auto' alt='GitHub Logo' aria-label='GitHub' />
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </div>

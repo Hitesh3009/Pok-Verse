@@ -1,29 +1,28 @@
 import { Comfortaa } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
-import Script from "next/script";
 import Navbar from "@/components/Navbar";
 
-const comfortaa = Comfortaa({ subsets: ["latin"] ,weight:'400'});
+const comfortaa = Comfortaa({ subsets: ["latin"], weight: '400' });
 
 // hydrates the meta tag in the browser html page
 export const metadata = {
   title: `PokéVerse - Home`, //title for the homepage
   description: "Search your favourite Pokémon by entering its name. Also get a detailed imformation about the Pokémon by clicking on their respective cards", // application description
   keywords: ["Pokemon", "Pokedex"], // keywords to appear in the search
-  author:"Hitesh Eknath Bhosale", // author
-  charset:"UTF-8", // type of encoding used
+  author: "Hitesh Eknath Bhosale", // author
+  charset: "UTF-8", // type of encoding used
 
   // favicons to be displayed
-  icons:{
-    icon:'android-chrome-192x192.png',
-    apple:'apple-touch-icon.png',
+  icons: {
+    icon: 'android-chrome-192x192.png',
+    apple: 'apple-touch-icon.png',
   }
 };
 
 // viewport so the search engines should know that application is responsive
-export const viewport={
-  viewport:"width=device-width, initial-scale=1.0"
+export const viewport = {
+  viewport: "width=device-width, initial-scale=1.0"
 }
 
 export default function RootLayout({ children }) {
@@ -43,8 +42,6 @@ export default function RootLayout({ children }) {
           <Footer />
         </footer>
       </body>
-      {/* External Script used for the icons used in the application*/}
-      <Script src="https://kit.fontawesome.com/52afc80947.js" />
     </html>
   );
 }
