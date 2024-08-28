@@ -1,6 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 const Footer = () => {
+    const instagramUrl=process.env.NEXT_PUBLIC_INSTAGRAM_URL;
+    const linkedInUrl=process.env.NEXT_PUBLIC_LINKEDIN_URL;
+    const gitHubUrl=process.env.NEXT_PUBLIC_GITHUB_URL;
     return (
         <>
             {/* footer to display the developer name and other details */}
@@ -25,13 +28,13 @@ const Footer = () => {
                         <h2 className='text-xl lg:text-2xl text-white text-center px-2'>Connect on Social Media Platforms</h2>
                         <div className='instagram text-white flex justify-center items-center my-4'>
                             {/* Instagram id */}
-                            <Link href='https://www.instagram.com/hitesh.e.bhosale/'><i className="fa-brands fa-instagram text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href={`${instagramUrl}`}><i className="fa-brands fa-instagram text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
 
                             {/* LinkedIn id */}
-                            <Link href='https://www.linkedin.com/in/hitesh-bhosale-46882b215/'><i className="fa-brands fa-linkedin text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href={`${linkedInUrl}`}><i className="fa-brands fa-linkedin text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
 
                             {/* GitHub id */}
-                            <Link href='https://github.com/Hitesh3009'><i className="fa-brands fa-github text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
+                            <Link href={`${gitHubUrl}`}><i className="fa-brands fa-github text-xl p-2 border-2 border-white rounded-full mx-2"></i></Link>
                         </div>
                     </div>
                 </div>
