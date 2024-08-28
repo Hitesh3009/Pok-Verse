@@ -27,7 +27,7 @@ export async function GET(req) {
         });
     } catch (e) {
         console.error(e); // logs the error for debugging
-        // displays the error to user in json format
+        // displays the error to user in json format 
         return new Response(JSON.stringify({error:'Internal server error'}), {
             headers: { 'Content-Type': 'application/json' },
             status:500
