@@ -88,7 +88,7 @@ const Allpokemons = async ({ params, searchParams }) => {
             }>
                 {
                     // handles the case where if any user navigates to page number which is not a number and a string or the page number is less than 0 or greater than the total page count, this will show 404 error page
-                    (!Number.isInteger(page) || page < 0 || page > Math.ceil(totalRes/12)) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto'>404 Page Not Found</p></div> : (<>
+                    (!Number.isInteger(page) || page < 0 || page > Math.ceil(totalRes/12)) ? <div className='flex flex-col items-center min-h-screen'><p className='text-3xl font-bold text-center my-auto text-white'>404 Page Not Found</p></div> : (<>
                         <div className="flex justify-center flex-wrap">
                             {
                                 // checks whether the array is empty, if not then displays the available pokemon cards
@@ -106,7 +106,7 @@ const Allpokemons = async ({ params, searchParams }) => {
                                 }) : (
                         <div>
                             {/* Displays a message in case if the pokemon is not available on the current page */}
-                            <p className='text-xl md:text-2xl lg:text-3xl leading-9'>Pokemon <span className='text-white bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
+                            <p className='text-xl md:text-2xl lg:text-3xl leading-9 text-white'>Pokemon <span className='text-yellow-200 bg-gray-700 py-2 px-3 rounded-lg'>{capitalizeFirstLetter(userInp)}</span>,Not found on this page maybe you can find it on next or previous page.</p>
                         </div>
                         )
                             }
