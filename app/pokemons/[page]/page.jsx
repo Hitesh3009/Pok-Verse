@@ -51,18 +51,12 @@ const pokeNameColorWithIcon = {
 };
 
 // this function returns the offset value based on the page number retrieved from the url path
-const getOffsetFromPageNo=(pagenumber)=>{
-    const offsetForPageNo={};
-    for (let i=0;i<=Math.ceil(totalRes/12);i++){
-      offsetForPageNo[i+1]=i*12;
-    }
-    return offsetForPageNo[pagenumber];
-  }
+
 
 // this is the component used to display the entire pokemon data
 const Allpokemons = async ({ params, searchParams }) => {
     const page = Number(params.page); // gets the page number from the url parameters
-    const offset=getOffsetFromPageNo(page); // gets the respective offset for the page number
+    const offset=(page-1)*12; // gets the respective offset for the page number
     const pokeArr = await getAllPokemonData(offset); // gets the pokemon data based on the provided offset
     const userInp = searchParams.input || ''; // retrieves the user query from the query parameter of url
     // returns the filtered array based on the user input for the pokemon search
