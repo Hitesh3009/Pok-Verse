@@ -23,13 +23,11 @@ module.exports = {
         slideToRight: {
           '0%': {
             transform: 'translateX(-20%)',
-            backgroundColor: 'white',
-            opacity:0
+            opacity: 0
           },
           '100%': {
             transform: 'translateX(0%)',
-            backgroundColor: 'white',
-            opacity:1
+            opacity: 1
           }
         },
 
@@ -45,17 +43,17 @@ module.exports = {
 
         // fading effect for displaying the pokemon information
         fadeIn: {
-          '0%': { backgroundColor: 'white',opacity:0 },
-          '100%': { backgroundColor:'white',opacity:1 },
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
         },
       },
 
-      animation:{
+      animation: {
         // gives the name to the animation to access them on the page with various transition effects
-        slideToLeft:'slideToLeft 0.75s linear 1',
-        slideToBottom:'slideToBottom 0.8s linear 1',
-        slideToRight:'slideToRight 5s ease',
-        fade: 'fadeIn 6s ease',
+        slideToLeft: 'slideToLeft 0.75s linear 1',
+        slideToBottom: 'slideToBottom 0.8s linear 1',
+        slideToRight: 'slideToRight 5s ease',
+        fade: 'fadeIn 5.5s ease-in',
       },
     },
   },
