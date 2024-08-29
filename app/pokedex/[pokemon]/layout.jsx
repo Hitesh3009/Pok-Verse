@@ -4,6 +4,6 @@ export const metadata = {
 
 export default function PokemonDataLayout({ children }) {
   return (
-    <section>{children}</section>
+    <section className="min-w-full min-h-full">{children}</section>
   );
 }
