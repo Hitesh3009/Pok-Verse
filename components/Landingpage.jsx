@@ -13,10 +13,10 @@ const LandingPage = () => {
         <div className='flex flex-col lg:flex-row'>
 
           <div className="w-[100vw] h-[50vh] sm:h-[60vh] lg:w-[50vw] md:h-[70vh] relative">
-            <Image src={`/Ash with his Pokemon1.avif`} fill alt='Ash with his Pokemon' sizes='auto' priority={true} />
+            <Image src={`/Ash with his Pokemon1.jpg`} fill alt='Ash with his Pokemon' sizes='auto' priority={true} />
           </div>
           <div className="w-[100vw] h-[50vh] sm:h-[60vh] lg:w-[50vw] md:h-[70vh] relative">
-            <Image src={`/Ash with his Pokemon2.avif`} fill alt='Ash with his Pokemon' sizes='auto' priority={true} />
+            <Image src={`/Ash with his Pokemon2.jpg`} fill alt='Ash with his Pokemon' sizes='auto' priority={true} />
           </div>
 
         </div>
