@@ -4,15 +4,13 @@ import PokemonType from './PokemonType';
 
 // Card that displays the pokemon basic information
 const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon, individualPokecard }) => {
-    const pokeImg=pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default ? pokeVal.sprites.other['official-artwork'].front_default : '/pokemon.svg';
+    const pokeImg = pokeVal.sprites.other.dream_world.front_default ? pokeVal.sprites.other.dream_world.front_default : pokeVal.sprites.other['official-artwork'].front_default ? pokeVal.sprites.other['official-artwork'].front_default : '/pokemon.svg';
     return (
         // individualPokecard prop Hides or displays some information that is only available on specific page like pokemon voice is only available on individual pokemon page and not all pokemon pages
         <div className={`bg-black text-white card border-[3px] bg-gradient-to-r from-[#001f3f] via-[#0057a3] to-[#0a84ff] border-gradient w-[17.5rem] md:min-w-[18.5rem] h-auto ${individualPokecard === true ? 'h-auto' : 'sm:h-[30.5rem] overflow-y-scroll'} m-[1.4rem] px-5 pt-2 space-y-4 ${individualPokecard === true ? 'md:animate-slideToLeft animate-slideToBottom' : 'hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105'} scrollbar-hide`}>
             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
-                <div className="pokeImg w-28 h-28 md:w-32 md:h-32 relative">
-                    {/* displays the pokemon image */}
-                    <Image src={pokeImg} alt="Pokemon Image" fill sizes='auto' priority={true} />    
-                </div>
+                {/* displays the pokemon image */}
+                <Image src={pokeImg} alt="Pokemon Image" width={500} height={300} className='w-28 h-28 md:w-32 md:h-32' priority={true} />
             </div>
 
             {/* Displays the pokemon name */}
@@ -26,7 +24,7 @@ const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon, individu
                     pokeVal.types.map((val, index) => {
                         return (
                             <div className="flex items-center px-2 py-0.5 rounded-md" style={{ backgroundColor: pokeNameColorWithIcon[val.type.name].color }} key={index}>
-                               {/* reusable component to display the pokemon type icon and its respective type color */}
+                                {/* reusable component to display the pokemon type icon and its respective type color */}
                                 <PokemonType pokeNameColorWithIcon={pokeNameColorWithIcon} typeValue={val.type.name} />
                                 {/* Type name */}
                                 <span className={`mx-1.5 text-white`} key={val.slot} >{capitalizeFirstLetter(val.type.name)}</span>
