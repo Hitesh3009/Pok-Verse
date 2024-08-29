@@ -10,7 +10,7 @@ const Cards = ({ pokeVal, capitalizeFirstLetter, pokeNameColorWithIcon, individu
         <div className={`bg-black text-white card border-[3px] bg-gradient-to-r from-[#001f3f] via-[#0057a3] to-[#0a84ff] border-gradient w-[17.5rem] md:min-w-[18.5rem] h-auto ${individualPokecard === true ? 'h-auto' : 'sm:h-[30.5rem] overflow-y-scroll'} m-[1.4rem] px-5 pt-2 space-y-4 ${individualPokecard === true ? 'md:animate-slideToLeft animate-slideToBottom' : 'hover:cursor-pointer hover:shadow-2xl hover:shadow-lime-500 hover:transform hover:scale-105'} scrollbar-hide`}>
             <div className='flex justify-center border-2 border-black rounded-tl-[250%] rounded-bl-[130%] rounded-tr-[180%] rounded-br-[200%] h-36 md:h-40 items-center w-full bg-gradient-to-bl from-purple-700 via-fuchsia-200 to-sky-400'>
                 {/* displays the pokemon image */}
-                <Image src={pokeImg} alt="Pokemon Image" width={500} height={300} className='w-28 h-28 md:w-32 md:h-32' priority={true} />
+                <Image src={pokeImg} alt="Pokemon Image" width={500} height={300} className='w-28 h-28 md:w-32 md:h-32' loading='lazy' />
             </div>
 
             {/* Displays the pokemon name */}
