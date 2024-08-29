@@ -31,25 +31,25 @@ const Footer = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className='socialMedia flex flex-col text-sm md:text-base mt-3 md:my-5'>
+                    <div className='socialMedia flex flex-col text-sm md:text-base mt-3 md:my-5 min-w-[250px]'>
                         <h2 className='text-xl lg:text-2xl text-white text-center px-2'>Connect on Social Media Platforms</h2>
                         <div className='instagram text-white flex justify-center items-center my-4'>
                             {/* Instagram id */}
-                            <Link href={`${instagramUrl}`} className='mx-2'>
+                            <Link href={`${instagramUrl || '#'}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
                                     <Image src={`/instagramLogo.svg`} fill sizes='auto' alt='Instagram Logo' aria-label='Instagram' priority={true}/>
                                 </div>
                             </Link>
 
                             {/* LinkedIn id */}
-                            <Link href={`${linkedInUrl}`} className='mx-2'>
+                            <Link href={`${linkedInUrl || '#'}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
                                     <Image src={`/linkedinLogo.svg`} fill sizes='auto' alt='LinkedIn Logo' aria-label='LinkedIn' priority={true}/>
                                 </div>
                             </Link>
 
                             {/* GitHub id */}
-                            <Link href={`${gitHubUrl}`} className='mx-2'>
+                            <Link href={`${gitHubUrl || '#'}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
                                     <Image src={`/githubLogo.svg`} fill sizes='auto' alt='GitHub Logo' aria-label='GitHub' priority={true}/>
                                 </div>
