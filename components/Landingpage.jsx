@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 const LandingPage = () => {
   const router = useRouter(); // use for navigation
   const handlePageChange = () => {
@@ -10,9 +11,14 @@ const LandingPage = () => {
     <>
       <div className='flex flex-col items-center'>
         <div className='flex flex-col lg:flex-row'>
-          {/* Displays the two images on the home page 1. ash with all his pokemon 2. ash with pikachu */}
-          <img src="/Ash with his Pokemon1.jpg" alt="Ash with his Pokemon" className='w-full lg:w-1/2' />
-          <img src="/Ash with his Pokemon2.jpg" alt="Ash with Pikachu" className='w-full lg:w-1/2' />
+
+          <div className="w-[100vw] h-[50vh] sm:h-[60vh] lg:w-[50vw] md:h-[70vh] relative">
+            <Image src={`/Ash with his Pokemon1.avif`} fill alt='Ash with his Pokemon' sizes='auto' priority={true} />
+          </div>
+          <div className="w-[100vw] h-[50vh] sm:h-[60vh] lg:w-[50vw] md:h-[70vh] relative">
+            <Image src={`/Ash with his Pokemon2.avif`} fill alt='Ash with his Pokemon' sizes='auto' priority={true} />
+          </div>
+
         </div>
 
         {/* Button to navigate to the first page */}
