@@ -17,7 +17,7 @@ const Footer = () => {
                         <div className='location text-white flex justify-start items-center p-2 border-2 border-white rounded-full my-2 md:border-none'>
                             {/* Location */}
                             <div className='w-6 h-6 md:w-7 md:h-7 relative'>
-                                <Image src={`/location.svg`} fill sizes='auto' alt='Location Logo' aria-label='Location' />
+                                <Image src={`/location.svg`} fill sizes='auto' alt='Location Logo' aria-label='Location' priority={true}/>
                             </div>
                             <span className='mx-2 tracking-widest'>Mumbai, India</span>
                         </div>
@@ -25,7 +25,7 @@ const Footer = () => {
                             {/* Mail address */}
                             <Link href='mailto: hiteshbhosle37906@gmail.com' className='hover:underline flex items-center'>
                                 <div className='w-6 h-6 md:w-7 md:h-7 relative'>
-                                    <Image src={`/mail.svg`} fill sizes='auto' alt='Email Logo' aria-label='Email' />
+                                    <Image src={`/mail.svg`} fill sizes='auto' alt='Email Logo' aria-label='Email' priority={true}/>
                                 </div>
                                 <span className='mx-2 tracking-widest'>hiteshbhosle37906@gmail.com</span>
                             </Link>
@@ -37,21 +37,21 @@ const Footer = () => {
                             {/* Instagram id */}
                             <Link href={`${instagramUrl}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
-                                    <Image src={`/instagramLogo.svg`} fill sizes='auto' alt='Instagram Logo' aria-label='Instagram' />
+                                    <Image src={`/instagramLogo.svg`} fill sizes='auto' alt='Instagram Logo' aria-label='Instagram' priority={true}/>
                                 </div>
                             </Link>
 
                             {/* LinkedIn id */}
                             <Link href={`${linkedInUrl}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
-                                    <Image src={`/linkedinLogo.svg`} fill sizes='auto' alt='LinkedIn Logo' aria-label='LinkedIn' />
+                                    <Image src={`/linkedinLogo.svg`} fill sizes='auto' alt='LinkedIn Logo' aria-label='LinkedIn' priority={true}/>
                                 </div>
                             </Link>
 
                             {/* GitHub id */}
                             <Link href={`${gitHubUrl}`} className='mx-2'>
                                 <div className="w-8 h-8 md:w-9 md:h-9 relative">
-                                    <Image src={`/githubLogo.svg`} fill sizes='auto' alt='GitHub Logo' aria-label='GitHub' />
+                                    <Image src={`/githubLogo.svg`} fill sizes='auto' alt='GitHub Logo' aria-label='GitHub' priority={true}/>
                                 </div>
                             </Link>
                         </div>

@@ -123,7 +123,7 @@ const Pokemon = async ({ params }) => {
                                             <tr key={index} className='border-[2.6px] border-yellow-400'>
                                                 <td className='p-3 flex justify-center' >
                                                     <div className='w-6 h-6 md:w-7 md:h-7 relative'>
-                                                        <Image src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='text-xs rounded-full' fill sizes='auto'/>
+                                                        <Image src={move && pokeNameColorWithIcon[move.move_type].icon} alt="Attack Type" className='text-xs rounded-full' fill sizes='auto' />
                                                     </div>
                                                 </td>
                                                 <td className='border-[2.6px] border-yellow-400 w-36'>
@@ -157,7 +157,7 @@ const Pokemon = async ({ params }) => {
                         <h1 className='text-2xl md:text-3xl text-white text-center tracking-wider mt-4 md:mt-0'>Moves Effectiveness</h1>
                         <div className='p-4'>
                             {
-                                pokeTypeArr&&pokeTypeArr.map((type, index) => {
+                                pokeTypeArr && pokeTypeArr.map((type, index) => {
                                     const key = effectiveMove[type]; // type of the pokemon eg:grass and poison
                                     return (
                                         <div key={index}>
@@ -170,8 +170,8 @@ const Pokemon = async ({ params }) => {
 
                                             <div className='flex flex-wrap justify-evenly'>
                                                 <div className='my-3'>
+                                                    <h2 className='pl-5 text-center text-base md:text-lg text-white'>Double Damage From</h2>
                                                     <ul>
-                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Double Damage From</h2>
                                                         {/* Displays all pokemon types against which it takes double damage */}
                                                         {
                                                             key.double_damage_from.length > 0 ? key.double_damage_from.map((val, idx) => {
@@ -192,8 +192,8 @@ const Pokemon = async ({ params }) => {
 
 
                                                 <div className='my-3'>
+                                                    <h2 className='pl-5 text-center text-base md:text-lg text-white'>Double Damage To</h2>
                                                     <ul>
-                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Double Damage To</h2>
                                                         {/* Displays all pokemon types against which it deals double damage */}
                                                         {
                                                             key.double_damage_to.length > 0 ? key.double_damage_to.map((val, idx) => {
@@ -214,8 +214,8 @@ const Pokemon = async ({ params }) => {
 
 
                                                 <div className='my-3'>
+                                                    <h2 className='pl-5 text-center text-base md:text-lg text-white'>Half Damage From</h2>
                                                     <ul>
-                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Half Damage From</h2>
                                                         {/* Displays all pokemon types against which it takes half damage */}
                                                         {
                                                             key.half_damage_from.length > 0 ? key.half_damage_from.map((val, idx) => {
@@ -236,8 +236,8 @@ const Pokemon = async ({ params }) => {
 
 
                                                 <div className='my-3'>
+                                                    <h2 className='pl-5 text-center text-base md:text-lg text-white'>Half Damage To</h2>
                                                     <ul>
-                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>Half Damage To</h2>
                                                         {/* Displays all pokemon types against which it deals half damage */}
                                                         {
                                                             key.half_damage_to.length > 0 ? key.half_damage_to.map((val, idx) => {
@@ -258,8 +258,8 @@ const Pokemon = async ({ params }) => {
 
 
                                                 <div className='my-3'>
+                                                    <h2 className='pl-5 text-center text-base md:text-lg text-white'>No Damage From</h2>
                                                     <ul>
-                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>No Damage From</h2>
                                                         {/* Displays all pokemon types against which it takes no damage */}
                                                         {
                                                             key.no_damage_from.length > 0 ? key.no_damage_from.map((val, idx) => {
@@ -280,8 +280,8 @@ const Pokemon = async ({ params }) => {
 
 
                                                 <div className='my-3'>
+                                                    <h2 className='pl-5 text-center text-base md:text-lg text-white'>No Damage To</h2>
                                                     <ul>
-                                                        <h2 className='pl-5 text-center text-base md:text-lg text-white'>No Damage To</h2>
                                                         {/* Displays all pokemon types against which it deals no damage */}
                                                         {
                                                             key.no_damage_to.length > 0 ? key.no_damage_to.map((val, idx) => {
