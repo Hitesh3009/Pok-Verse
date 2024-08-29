@@ -28,19 +28,19 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${comfortaa.className} min-h-screen grid grid-rows-[auto_1fr_auto] bg-gradient-to-r from-[#1e0459] via-[#662983] to-[#151332]`}>
+      <body className={`${comfortaa.className} min-h-screen flex flex-col bg-gradient-to-r from-[#1e0459] via-[#662983] to-[#151332]`}>
         {/* display the navbar inside the header tag */}
         <header>
           <Navbar />
         </header>
 
         {/* displays the main content */}
-        <main>
+        <main className="flex-grow">
           {children}
         </main>
 
         {/* displays the application footer */}
-        <footer>
+        <footer className="mt-auto">
           <Footer />
         </footer>
       </body>
