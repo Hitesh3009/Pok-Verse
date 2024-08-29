@@ -2,7 +2,7 @@ import { Comfortaa } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 const comfortaa = Comfortaa({ subsets: ["latin"], weight: '400' });
 
 // hydrates the meta tag in the browser html page
@@ -43,6 +43,8 @@ export default function RootLayout({ children }) {
         <footer className="mt-auto">
           <Footer />
         </footer>
+
+         <SpeedInsights />
       </body>
     </html>
   );
