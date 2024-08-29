@@ -4,6 +4,6 @@ export const metadata = {
 
 export default function AllPokemonsLayout({ children }) {
   return (
-    <section className="min-w-full min-h-full">{children}</section>
+    <section>{children}</section>
   );
 }
